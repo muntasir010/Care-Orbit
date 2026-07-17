@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../sheet";
-import { Button } from "../button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Button } from "../ui/button";
 
 const PublicNavbar = () => {
   const navItems = [
@@ -12,10 +12,10 @@ const PublicNavbar = () => {
     { href: "#", label: "NGOs" },
   ];
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur  dark:bg-background/95">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-white/70 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-primary">Care Orbit</span>
+          <span className="text-xl lg:text-2xl font-bold text-primary ">Care Orbit</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
