@@ -40,8 +40,8 @@ const PublicNavbar = () => {
 
         <div className="md:hidden">
           <Sheet>
-            <SheetTrigger>
-              <Button variant="outline"><Menu /></Button>
+            <SheetTrigger className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 hover:bg-accent hover:text-accent-foreground">
+              <Menu />
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] p-4">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
