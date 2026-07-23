@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { parseCookie } from "cookie";
 import { cookies } from "next/headers";
-import { parse } from "path";
 import z from "zod";
 
 const loginValidationZodSchema = z.object({
-  email: z.email({
-    error: "Email is required",
+  email: z.string().email({
+    error: "Valid email is required",
   }),
   password: z
-    .string("Password is required")
+    .string()
     .min(6, {
-      error: "Password is required and must be at least 6 characters long",
+      error: "Password must be at least 6 characters long",
     })
     .max(18, {
       error: "Password must be at most 18 characters",
@@ -37,12 +37,10 @@ export const loginUser = async (
     if (!validatedFields.success) {
       return {
         success: false,
-        errors: validatedFields.error.issues.map((issue) => {
-          return {
-            field: issue.path[0],
-            message: issue.message,
-          };
-        }),
+        errors: validatedFields.error.issues.map((issue) => ({
+          field: issue.path[0],
+          message: issue.message,
+        })),
       };
     }
 
@@ -54,11 +52,20 @@ export const loginUser = async (
       },
     });
 
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        error: data?.message || "Login failed from backend",
+      };
+    }
+
     const setCookieHeaders = res.headers.getSetCookie();
 
     if (setCookieHeaders && setCookieHeaders.length > 0) {
-      setCookieHeaders.forEach((cookie: string) => {
-        const parsedCookie = parse(cookie) as any;
+      setCookieHeaders.forEach((cookieStr: string) => {
+        const parsedCookie = parseCookie(cookieStr) as any;
 
         if (parsedCookie["accessToken"]) {
           accessTokenObject = parsedCookie;
@@ -71,18 +78,14 @@ export const loginUser = async (
       throw new Error("No Set-Cookie header found");
     }
 
-    if (!accessTokenObject) {
-      throw new Error("Tokens not found in cookies");
-    }
-
-    if (!refreshTokenObject) {
-      throw new Error("Tokens not found in cookies");
+    if (!accessTokenObject || !refreshTokenObject) {
+      throw new Error("Tokens not found in response cookies");
     }
 
     const cookieStore = await cookies();
 
     cookieStore.set("accessToken", accessTokenObject.accessToken, {
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: parseInt(accessTokenObject["Max-Age"]) || 1000 * 60 * 60,
       path: accessTokenObject.Path || "/",
@@ -90,14 +93,23 @@ export const loginUser = async (
     });
 
     cookieStore.set("refreshToken", refreshTokenObject.refreshToken, {
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge:
-        parseInt(refreshTokenObject["Max-Age"]) || 1000 * 60 * 60 * 24 * 90,
+      maxAge: parseInt(refreshTokenObject["Max-Age"]) || 1000 * 60 * 60 * 24 * 90,
       path: refreshTokenObject.Path || "/",
       sameSite: refreshTokenObject["SameSite"] || "none",
     });
-  } catch {
-    return { error: "Login failed" };
+
+    return {
+      success: true,
+      message: "Login successful",
+    };
+
+  } catch (error: any) {
+    console.error("Login Server Action Error:", error);
+    return { 
+      success: false, 
+      error: error?.message || "Internal Server Error" 
+    };
   }
 };
