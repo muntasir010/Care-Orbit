@@ -2,8 +2,16 @@
 "use server";
 
 import { parseCookie } from "cookie";
+import { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import z from "zod";
+import jwt from "jsonwebtoken";
+import {
+  getDefaultDashboardRoute,
+  isValidRedirectForRole,
+  UserRole,
+} from "@/lib/auth-utils";
+import { redirect } from "next/navigation";
 
 const loginValidationZodSchema = z.object({
   email: z.string().email({
@@ -24,6 +32,8 @@ export const loginUser = async (
   formData: any,
 ): Promise<any> => {
   try {
+    const redirectTo = formData.get("redirect") || null;
+    console.log("action to server function", redirectTo);
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
 
@@ -95,21 +105,38 @@ export const loginUser = async (
     cookieStore.set("refreshToken", refreshTokenObject.refreshToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: parseInt(refreshTokenObject["Max-Age"]) || 1000 * 60 * 60 * 24 * 90,
+      maxAge:
+        parseInt(refreshTokenObject["Max-Age"]) || 1000 * 60 * 60 * 24 * 90,
       path: refreshTokenObject.Path || "/",
       sameSite: refreshTokenObject["SameSite"] || "none",
     });
 
-    return {
-      success: true,
-      message: "Login successful",
-    };
+    const verifiedToken: JwtPayload | string = jwt.verify(
+      accessTokenObject.accessToken,
+      process.env.JWT_SECRET as string,
+    );
+
+    if (typeof verifiedToken === "string") {
+      throw new Error("Invalid token");
+    }
+
+    const userRole: UserRole = verifiedToken.role;
+  
+    if (redirectTo) {
+      const requestedPath = redirectTo.toString();
+      if (isValidRedirectForRole(requestedPath, userRole)) {
+        redirect(requestedPath);
+      } else {
+        redirect(getDefaultDashboardRoute(userRole));
+      }
+    }
 
   } catch (error: any) {
-    console.error("Login Server Action Error:", error);
-    return { 
-      success: false, 
-      error: error?.message || "Internal Server Error" 
-    };
-  }
+        // Re-throw NEXT_REDIRECT errors so Next.js can handle them
+        if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+            throw error;
+        }
+        console.log(error);
+        return { error: "Login failed" };
+    }
 };
