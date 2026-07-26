@@ -62,6 +62,7 @@ export const loginUser = async (
       },
     });
 
+    const result = await res.json()
     const data = await res.json();
 
     if (!res.ok) {
@@ -121,7 +122,11 @@ export const loginUser = async (
     }
 
     const userRole: UserRole = verifiedToken.role;
-  
+
+    if(!result.success){
+      throw new Error ("Login Failed!")
+    }
+
     if (redirectTo) {
       const requestedPath = redirectTo.toString();
       if (isValidRedirectForRole(requestedPath, userRole)) {
@@ -129,14 +134,15 @@ export const loginUser = async (
       } else {
         redirect(getDefaultDashboardRoute(userRole));
       }
+    } else {
+      redirect(getDefaultDashboardRoute(userRole));
     }
-
   } catch (error: any) {
-        // Re-throw NEXT_REDIRECT errors so Next.js can handle them
-        if (error?.digest?.startsWith('NEXT_REDIRECT')) {
-            throw error;
-        }
-        console.log(error);
-        return { error: "Login failed" };
+    // Re-throw NEXT_REDIRECT errors so Next.js can handle them
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+      throw error;
     }
+    console.log(error);
+    return { error: "Login failed" };
+  }
 };

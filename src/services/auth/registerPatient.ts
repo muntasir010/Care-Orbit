@@ -1,5 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { loginUser } from './loginUser';
 
 import z from "zod";
 
@@ -75,9 +77,16 @@ export const registerPatient = async (
         method: "POST",
         body: newFormData,
       },
-    ).then((res) => res.json());
+    )
+    
+    const result = await res.json();
 
-    return res;
+    if(result.success){
+      await loginUser(_currentState, formData);
+    }
+
+    return result;
+
   } catch (error) {
     console.log(error);
     return { error: "Registration failed" };
