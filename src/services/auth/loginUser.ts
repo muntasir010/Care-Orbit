@@ -62,13 +62,12 @@ export const loginUser = async (
       },
     });
 
-    const result = await res.json()
-    const data = await res.json();
+    const result = await res.json();
 
     if (!res.ok) {
       return {
         success: false,
-        error: data?.message || "Login failed from backend",
+        error: result?.message || "Login failed from backend",
       };
     }
 
@@ -98,33 +97,45 @@ export const loginUser = async (
     cookieStore.set("accessToken", accessTokenObject.accessToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: parseInt(accessTokenObject["Max-Age"]) || 1000 * 60 * 60,
-      path: accessTokenObject.Path || "/",
-      sameSite: accessTokenObject["SameSite"] || "none",
+      maxAge: parseInt(accessTokenObject["Max-Age"]) || 60 * 60, // seconds
+      path: "/",
+      sameSite: "lax",
     });
 
     cookieStore.set("refreshToken", refreshTokenObject.refreshToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge:
-        parseInt(refreshTokenObject["Max-Age"]) || 1000 * 60 * 60 * 24 * 90,
-      path: refreshTokenObject.Path || "/",
-      sameSite: refreshTokenObject["SameSite"] || "none",
+      maxAge: parseInt(refreshTokenObject["Max-Age"]) || 60 * 60 * 24 * 90, // seconds
+      path: "/",
+      sameSite: "lax",
     });
 
-    const verifiedToken: JwtPayload | string = jwt.verify(
-      accessTokenObject.accessToken,
-      process.env.JWT_SECRET as string,
-    );
+    const jwtSecret = process.env.JWT_ACCESS_SECRET;
+    if (!jwtSecret) {
+      console.error('JWT_ACCESS_SECRET not defined during login verification. Clearing cookies and returning error.');
+      cookieStore.delete('accessToken');
+      cookieStore.delete('refreshToken');
+      return { success: false, error: 'Server misconfiguration: missing JWT secret' };
+    }
 
-    if (typeof verifiedToken === "string") {
-      throw new Error("Invalid token");
+    let verifiedToken: JwtPayload | string;
+    try {
+      verifiedToken = jwt.verify(accessTokenObject.accessToken, jwtSecret) as JwtPayload | string;
+    } catch (err) {
+      console.error('Token verification failed during login:', err);
+      cookieStore.delete('accessToken');
+      cookieStore.delete('refreshToken');
+      return { success: false, error: 'Invalid or expired token' };
+    }
+
+    if (typeof verifiedToken === 'string') {
+      return { success: false, error: 'Invalid token' };
     }
 
     const userRole: UserRole = verifiedToken.role;
 
-    if(!result.success){
-      throw new Error ("Login Failed!")
+    if (!result.success) {
+      throw new Error('Login Failed!');
     }
 
     if (redirectTo) {

@@ -18,18 +18,43 @@ export async function proxy(request: NextRequest) {
 
   let userRole: UserRole | null = null;
   if (accessToken) {
-    const verifiedToken: JwtPayload | string = jwt.verify(
-      accessToken,
-      process.env.JWT_SECRET as string,
-    );
+    const jwtSecret = process.env.JWT_ACCESS_SECRET;
 
-    if (typeof verifiedToken === "string") {
+    if (!jwtSecret) {
+      // Descriptive error and safe fallback when JWT secret is not available
+      console.error(
+        "JWT_ACCESS_SECRET is not defined. Clearing auth cookies and redirecting to /login.",
+      );
       cookieStore.delete("accessToken");
       cookieStore.delete("refreshToken");
-      return NextResponse.redirect(new URL("/login", request.url));
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
     }
 
-    userRole = verifiedToken.role;
+    try {
+      const verifiedToken = jwt.verify(accessToken, jwtSecret) as
+        | JwtPayload
+        | string;
+
+      if (typeof verifiedToken === "string") {
+        cookieStore.delete("accessToken");
+        cookieStore.delete("refreshToken");
+        const loginUrl = new URL("/login", request.url);
+        loginUrl.searchParams.set("redirect", pathname);
+        return NextResponse.redirect(loginUrl);
+      }
+
+      userRole = verifiedToken.role;
+    } catch (err) {
+      // Token invalid/expired or verification error — clear tokens and redirect to login
+      console.error("Token verification failed:", err);
+      cookieStore.delete("accessToken");
+      cookieStore.delete("refreshToken");
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   const routerOwner = getRouteOwner(pathname);
