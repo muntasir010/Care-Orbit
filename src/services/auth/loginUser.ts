@@ -12,6 +12,7 @@ import {
   UserRole,
 } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
+import { setCookie } from "./tokenHadler";
 
 const loginValidationZodSchema = z.object({
   email: z.string().email({
@@ -92,9 +93,8 @@ export const loginUser = async (
       throw new Error("Tokens not found in response cookies");
     }
 
-    const cookieStore = await cookies();
-
-    cookieStore.set("accessToken", accessTokenObject.accessToken, {
+   
+    await setCookie("accessToken", accessTokenObject.accessToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: parseInt(accessTokenObject["Max-Age"]) || 60 * 60, // seconds
@@ -102,7 +102,7 @@ export const loginUser = async (
       sameSite: "lax",
     });
 
-    cookieStore.set("refreshToken", refreshTokenObject.refreshToken, {
+    await setCookie("refreshToken", refreshTokenObject.refreshToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: parseInt(refreshTokenObject["Max-Age"]) || 60 * 60 * 24 * 90, // seconds
