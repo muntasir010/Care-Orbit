@@ -81,14 +81,23 @@ export const registerPatient = async (
     
     const result = await res.json();
 
-    if(result.success){
-      await loginUser(_currentState, formData);
+    if (!result.success) {
+      return result;
     }
 
-    return result;
+    // Registration succeeded — attempt login which will redirect
+    const loginResult = await loginUser(_currentState, formData);
+    
+    // If loginUser returns (no redirect), return its result
+    // If loginUser redirects, the redirect exception is thrown and caught below
+    return loginResult;
 
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    // Re-throw NEXT_REDIRECT errors so Next.js can handle them (from loginUser)
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+      throw error;
+    }
     return { error: "Registration failed" };
   }
 };
