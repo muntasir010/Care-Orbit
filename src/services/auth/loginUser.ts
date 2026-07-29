@@ -3,7 +3,6 @@
 
 import { parseCookie } from "cookie";
 import { JwtPayload } from "jsonwebtoken";
-import { cookies } from "next/headers";
 import z from "zod";
 import jwt from "jsonwebtoken";
 import {
@@ -12,7 +11,7 @@ import {
   UserRole,
 } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
-import { setCookie } from "./tokenHadler";
+import { setCookie } from "./tokenHandler";
 
 const loginValidationZodSchema = z.object({
   email: z.string().email({
