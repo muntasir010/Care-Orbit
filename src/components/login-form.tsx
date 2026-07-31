@@ -1,11 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { loginUser } from "@/services/auth/loginUser";
+import { toast } from "sonner";
 
 const LoginForm = ({ redirect }: { redirect?: string }) => {
   const [state, formAction, isPending] = useActionState(loginUser, null);
@@ -13,11 +14,17 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
   const getFieldError = (fieldName: string) => {
     if (state && state.errors) {
       const error = state.errors.find((err: any) => err.field === fieldName);
-      return error;
+      return error.message;
     } else {
       return null;
     }
   };
+
+  useEffect(() => {
+    if (state && !state.success && state.message) {
+      toast.error(state.message);
+    }
+  }, [state]);
 
   return (
     <form action={formAction}>
@@ -34,12 +41,14 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
               placeholder="m@example.com"
               //   required
             />
+
             {getFieldError("email") && (
-              <FieldDescription className="text-red-600 font-medium mt-1">
-                {getFieldError("email")?.message}
+              <FieldDescription className="text-red-600">
+                {getFieldError("email")}
               </FieldDescription>
             )}
           </Field>
+
           {/* Password */}
           <Field>
             <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -51,8 +60,8 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
               //   required
             />
             {getFieldError("password") && (
-              <FieldDescription className="text-red-600 font-medium mt-1">
-                {getFieldError("password")?.message}
+              <FieldDescription className="text-red-600">
+                {getFieldError("password")}
               </FieldDescription>
             )}
           </Field>
@@ -62,6 +71,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
             <Button type="submit" disabled={isPending}>
               {isPending ? "Logging in..." : "Login"}
             </Button>
+
             <FieldDescription className="px-6 text-center">
               Don&apos;t have an account?{" "}
               <a href="/register" className="text-blue-600 hover:underline">
@@ -82,4 +92,5 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
     </form>
   );
 };
+
 export default LoginForm;

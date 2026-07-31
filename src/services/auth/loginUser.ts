@@ -12,6 +12,7 @@ import {
 } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
 import { setCookie } from "./tokenHandler";
+// import { cookies } from "next/headers";
 
 const loginValidationZodSchema = z.object({
   email: z.string().email({
@@ -33,7 +34,6 @@ export const loginUser = async (
 ): Promise<any> => {
   try {
     const redirectTo = formData.get("redirect") || null;
-    console.log("action to server function", redirectTo);
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
 
@@ -67,7 +67,7 @@ export const loginUser = async (
     if (!res.ok) {
       return {
         success: false,
-        error: result?.message || "Login failed from backend",
+        message: result?.message || "Login failed!",
       };
     }
 
@@ -92,11 +92,10 @@ export const loginUser = async (
       throw new Error("Tokens not found in response cookies");
     }
 
-   
     await setCookie("accessToken", accessTokenObject.accessToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: parseInt(accessTokenObject["Max-Age"]) || 60 * 60, // seconds
+      maxAge: parseInt(accessTokenObject["Max-Age"]) || 60 * 60,
       path: "/",
       sameSite: "lax",
     });
@@ -104,38 +103,37 @@ export const loginUser = async (
     await setCookie("refreshToken", refreshTokenObject.refreshToken, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: parseInt(refreshTokenObject["Max-Age"]) || 60 * 60 * 24 * 90, // seconds
+      maxAge: parseInt(refreshTokenObject["Max-Age"]) || 60 * 60 * 24 * 90,
       path: "/",
       sameSite: "lax",
     });
 
     const jwtSecret = process.env.JWT_ACCESS_SECRET;
+    // const cookieStore = await cookies();
+
     if (!jwtSecret) {
-      console.error('JWT_ACCESS_SECRET not defined during login verification. Clearing cookies and returning error.');
-      cookieStore.delete('accessToken');
-      cookieStore.delete('refreshToken');
-      return { success: false, error: 'Server misconfiguration: missing JWT secret' };
+      cookieStore.delete("accessToken");
+      cookieStore.delete("refreshToken");
+      return {
+        success: false,
+        message: "Server misconfiguration: missing JWT secret",
+      };
     }
 
     let verifiedToken: JwtPayload | string;
     try {
       verifiedToken = jwt.verify(accessTokenObject.accessToken, jwtSecret) as JwtPayload | string;
     } catch (err) {
-      console.error('Token verification failed during login:', err);
-      cookieStore.delete('accessToken');
-      cookieStore.delete('refreshToken');
-      return { success: false, error: 'Invalid or expired token' };
+      cookieStore.delete("accessToken");
+      cookieStore.delete("refreshToken");
+      return { success: false, message: "Invalid or expired token" };
     }
 
-    if (typeof verifiedToken === 'string') {
-      return { success: false, error: 'Invalid token' };
+    if (typeof verifiedToken === "string") {
+      return { success: false, message: "Invalid token" };
     }
 
     const userRole: UserRole = verifiedToken.role;
-
-    if (!result.success) {
-      throw new Error('Login Failed!');
-    }
 
     if (redirectTo) {
       const requestedPath = redirectTo.toString();
@@ -148,11 +146,12 @@ export const loginUser = async (
       redirect(getDefaultDashboardRoute(userRole));
     }
   } catch (error: any) {
-    // Re-throw NEXT_REDIRECT errors so Next.js can handle them
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
     }
-    console.log(error);
-    return { error: "Login failed" };
+    return { 
+      success: false, 
+      message: process.env.NODE_ENV === "development" ? error.message : "Login Failed! Incorrect password or email." 
+    };
   }
 };
