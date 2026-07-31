@@ -1,7 +1,7 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { loginUser } from './loginUser';
+import { loginUser } from "./loginUser";
 
 import z from "zod";
 
@@ -27,7 +27,7 @@ const registerZodValidationSchema = z
   })
   .refine((data: any) => data.password === data.confirmPassword, {
     error: "Password do not match",
-    path: ["confirmPassword"]
+    path: ["confirmPassword"],
   });
 
 export const registerPatient = async (
@@ -77,8 +77,8 @@ export const registerPatient = async (
         method: "POST",
         body: newFormData,
       },
-    )
-    
+    );
+
     const result = await res.json();
 
     if (!result.success) {
@@ -87,17 +87,22 @@ export const registerPatient = async (
 
     // Registration succeeded — attempt login which will redirect
     const loginResult = await loginUser(_currentState, formData);
-    
+
     // If loginUser returns (no redirect), return its result
     // If loginUser redirects, the redirect exception is thrown and caught below
     return loginResult;
-
   } catch (error: any) {
     console.log(error);
     // Re-throw NEXT_REDIRECT errors so Next.js can handle them (from loginUser)
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
     }
-    return { error: "Registration failed" };
+    return {
+      success: false,
+      message:
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Registration Failed! Please try again.",
+    };
   }
 };
