@@ -1,15 +1,18 @@
-import LogoutButton from "@/components/shared/LogoutButton";
+import DashboardNavbar from "@/components/modules/Dashboard/DashboardNavbar";
+import DashboardSidebar from "@/components/modules/Dashboard/DashboardSidebar";
 import React from "react";
 
 const CommonDashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      <div className="flex justify-between items-center p-6">
-        <h1 className="text-2xl text-primary">Dashboard</h1>
-        <LogoutButton />
+     <div className="flex h-screen overflow-hidden">
+      <DashboardSidebar />
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <DashboardNavbar />
+        <main className="flex-1 overflow-y-auto bg-muted/10 p-4 md:p-6">
+          <div className="max-w-7xl">{children}</div>
+        </main>
       </div>
-      {children}
-    </div>
+    </div> 
   );
 };
 
