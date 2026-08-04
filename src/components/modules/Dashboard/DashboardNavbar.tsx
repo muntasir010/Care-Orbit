@@ -1,7 +1,14 @@
-const DashboardNavbar = () => {
-  return (
-    <div>DashboardNavbar</div>
-  )
-}
+import { getUserInfo } from "@/services/auth/getUserInfo";
+import DashboardNavbarContent from "./DashboardNavbarContent";
+import { UserInfo } from "@/types/user.interface";
 
-export default DashboardNavbar
+const DashboardNavbar = async () => {
+  const userInfo = (await getUserInfo()) as UserInfo;
+  return (
+    <div>
+      <DashboardNavbarContent userInfo={userInfo} />
+    </div>
+  );
+};
+
+export default DashboardNavbar;
