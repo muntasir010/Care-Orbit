@@ -1,10 +1,10 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { UserInfo } from "@/types/user.interface"
 import { Bell, Search } from "lucide-react"
 import UserDropdown from "./UserDropdown"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 interface DashboardContentProps{
 userInfo: UserInfo
