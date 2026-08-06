@@ -1,21 +1,43 @@
 "use client"
 
 import { UserInfo } from "@/types/user.interface"
-import { Bell, Search } from "lucide-react"
+import { Bell, Menu, Search } from "lucide-react"
 import UserDropdown from "./UserDropdown"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { NavSection } from "@/types/dashboard.interface"
+import { useState } from "react"
+import DashboardMobileSidebar from "./DashboardMobileSidebar"
 
 interface DashboardContentProps{
-userInfo: UserInfo
+userInfo: UserInfo;
+  navItems?: NavSection[];
+  dashboardHome?: string;
 }
 
-const DashboardNavbarContent = ({ userInfo }: DashboardContentProps) => {
+const DashboardNavbarContent = ({ userInfo, navItems, dashboardHome }: DashboardContentProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6">
         {/* Mobile Menu Toggle */}
-        
+         <Sheet open={isMobile && isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="outline" size="icon">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          {/* Hide the overlay on medium and larger screens */}
+          <SheetContent side="left" className="w-64 p-0">
+            <DashboardMobileSidebar
+              userInfo={userInfo}
+              navItems={navItems || []}
+              dashboardHome={dashboardHome || ""}
+            />
+          </SheetContent>
+        </Sheet>
 
         {/* Search Bar */}
         <div className="flex-1">
