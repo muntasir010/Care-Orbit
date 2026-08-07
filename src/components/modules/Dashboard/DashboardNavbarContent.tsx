@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { NavSection } from "@/types/dashboard.interface"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DashboardMobileSidebar from "./DashboardMobileSidebar"
 
 interface DashboardContentProps{
@@ -19,6 +19,20 @@ userInfo: UserInfo;
 const DashboardNavbarContent = ({ userInfo, navItems, dashboardHome }: DashboardContentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkSmallerScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkSmallerScreen();
+    window.addEventListener("resize", checkSmallerScreen);
+
+    return () => {
+      window.removeEventListener("resize", checkSmallerScreen);
+    };
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6">
