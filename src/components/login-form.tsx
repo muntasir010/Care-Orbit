@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
@@ -7,18 +6,11 @@ import { Button } from "./ui/button";
 import { useActionState, useEffect } from "react";
 import { loginUser } from "@/services/auth/loginUser";
 import { toast } from "sonner";
+import InputFieldError from "./shared/InputFieldError";
 
 const LoginForm = ({ redirect }: { redirect?: string }) => {
   const [state, formAction, isPending] = useActionState(loginUser, null);
 
-  const getFieldError = (fieldName: string) => {
-    if (state && state.errors) {
-      const error = state.errors.find((err: any) => err.field === fieldName);
-      return error.message;
-    } else {
-      return null;
-    }
-  };
 
   useEffect(() => {
     if (state && !state.success && state.message) {
@@ -42,11 +34,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
               //   required
             />
 
-            {getFieldError("email") && (
-              <FieldDescription className="text-red-600">
-                {getFieldError("email")}
-              </FieldDescription>
-            )}
+            <InputFieldError field="email" state={state} />
           </Field>
 
           {/* Password */}
@@ -59,11 +47,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
               placeholder="Enter your password"
               //   required
             />
-            {getFieldError("password") && (
-              <FieldDescription className="text-red-600">
-                {getFieldError("password")}
-              </FieldDescription>
-            )}
+            <InputFieldError field="password" state={state} />
           </Field>
         </div>
         <FieldGroup className="mt-4">
