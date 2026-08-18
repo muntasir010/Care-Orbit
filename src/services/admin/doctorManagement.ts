@@ -141,3 +141,19 @@ export async function softDeleteDoctor(id: string) {
         };
     }
 }
+
+
+export async function deleteDoctor(id: string) {
+    try {
+        const response = await serverFetch.delete(`/doctor/${id}`)
+        const result = await response.json();
+
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
