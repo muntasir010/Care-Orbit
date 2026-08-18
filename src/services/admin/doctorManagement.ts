@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
 import { IDoctor } from "@/types/doctor.interface";
@@ -65,5 +66,19 @@ export async function createDoctor(_prevState: any, formData: FormData) {
         console.log(error);
         return { success: false, message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}` }
 
+    }
+}
+
+export async function getDoctors(queryString?: string) {
+    try {
+        const response = await serverFetch.get(`/doctor${queryString ? `?${queryString}` : ""}`);
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
     }
 }
