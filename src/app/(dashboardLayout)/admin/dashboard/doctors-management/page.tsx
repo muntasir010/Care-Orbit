@@ -5,6 +5,7 @@ import RefreshButton from "@/components/shared/RefreshButton";
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/SelectFilter";
 import { TableSkeleton } from "@/components/shared/TableSkeleton";
+import { queryStringFormatter } from "@/lib/formatters";
 import { getDoctors } from "@/services/admin/doctorManagement";
 import { getSpecialties } from "@/services/admin/specialtiesManagement";
 import { ISpecialty } from "@/types/specialties.interface"
@@ -15,8 +16,11 @@ const AdminDoctorsManagementPage = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
+  const searchParamsObj = await searchParams;
+  const queryString = queryStringFormatter(searchParamsObj);
   const specialtiesResult = await getSpecialties();
-  const doctorsResult = await getDoctors();
+  const doctorsResult = await getDoctors(queryString);
+
   return (
     <div className="space-y-6">
       <DoctorsManagementHeader specialties={specialtiesResult.data} />
