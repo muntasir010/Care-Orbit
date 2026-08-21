@@ -77,3 +77,29 @@ export async function createAdmin(_prevState: any, formData: FormData) {
     };
   }
 }
+
+export async function getAdmins(queryString?: string) {
+    try {
+        const searchParams = new URLSearchParams(queryString);
+        const page = searchParams.get("page") || "1";
+        const searchTerm = searchParams.get("searchTerm") || "all";
+        const response = await serverFetch.get(`/admin${queryString ? `?${queryString}` : ""}`, {
+            next: {
+                tags: [
+                    "admins-list",
+                    `admins-page-${page}`,
+                    `admins-search-${searchTerm}`,
+                ],
+                revalidate: 180
+            }
+        });
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
