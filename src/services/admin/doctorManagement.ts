@@ -143,7 +143,6 @@ export async function softDeleteDoctor(id: string) {
     }
 }
 
-
 export async function deleteDoctor(id: string) {
     try {
         const response = await serverFetch.delete(`/doctor/${id}`)
