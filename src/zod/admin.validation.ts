@@ -9,3 +9,8 @@ export const createAdminZodSchema = z.object({
         .instanceof(File)
         .refine((file) => file.size > 0, "Profile photo is required"),
 });
+
+export const updateAdminZodSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    contactNumber: z.string().min(1, "Contact number is required"),
+});
