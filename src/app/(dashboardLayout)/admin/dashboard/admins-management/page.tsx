@@ -1,7 +1,11 @@
-const AdminsManagementPage = () => {
+import AdminsManagementHeader from "@/components/modules/Admin/AdminManagement/AdminsManagementHeader"
+
+const AdminAdminsManagementPage = () => {
   return (
-    <div>AdminsManagementPage</div>
+    <div>
+        <AdminsManagementHeader />
+    </div>
   )
 }
 
-export default AdminsManagementPage
+export default AdminAdminsManagementPage
