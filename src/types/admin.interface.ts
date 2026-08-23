@@ -5,6 +5,7 @@ export interface IAdmin {
     profilePhoto?: string | null;
     contactNumber: string;
     isDeleted: boolean;
+    sortKey: string | null;
     createdAt: string;
     updatedAt: string;
 }
