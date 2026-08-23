@@ -16,7 +16,6 @@ export const adminsColumns: Column<IAdmin>[] = [
         photo={admin.profilePhoto}
       />
     ),
-    sortKey: "name",
   },
   {
     header: "Contact",
@@ -33,6 +32,5 @@ export const adminsColumns: Column<IAdmin>[] = [
   {
     header: "Joined",
     accessor: (admin) => <DateCell date={admin.createdAt} />,
-    sortKey: "createdAt",
   },
 ];
