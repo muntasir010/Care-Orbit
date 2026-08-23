@@ -9,6 +9,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import AdminFormDialog from "./AdminFormDialog";
 import { adminsColumns } from "./adminsColumn";
+import AdminViewDetailDialog from "./AdminDetailViewDialog";
 
 interface AdminsTableProps {
   admins: IAdmin[];
@@ -18,6 +19,7 @@ const AdminsTable = ({ admins }: AdminsTableProps) => {
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [deletingAdmin, setDeletingAdmin] = useState<IAdmin | null>(null);
+  const [viewingAdmin, setViewingAdmin] = useState<IAdmin | null>(null);
   const [editingAdmin, setEditingAdmin] = useState<IAdmin | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -25,6 +27,10 @@ const AdminsTable = ({ admins }: AdminsTableProps) => {
     startTransition(() => {
       router.refresh();
     });
+  };
+
+  const handleView = (admin: IAdmin) => {
+    setViewingAdmin(admin);
   };
 
   const handleEdit = (admin: IAdmin) => {
@@ -56,6 +62,7 @@ const AdminsTable = ({ admins }: AdminsTableProps) => {
       <ManagementTable
         data={admins}
         columns={adminsColumns}
+        onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
         getRowKey={(admin) => admin.id!}
@@ -74,6 +81,11 @@ const AdminsTable = ({ admins }: AdminsTableProps) => {
       />
 
       {/* View Admin Detail Dialog */}
+      <AdminViewDetailDialog
+        open={!!viewingAdmin}
+        onClose={() => setViewingAdmin(null)}
+        admin={viewingAdmin}
+      />
 
       {/* Delete Confirmation Dialog */}
       <DeleteConfirmationDialog
