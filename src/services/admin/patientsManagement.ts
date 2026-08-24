@@ -101,3 +101,39 @@ export async function updatePatient(id: string, _prevState: any, formData: FormD
         };
     }
 }
+
+export async function softDeletePatient(id: string) {
+    try {
+        const response = await serverFetch.delete(`/patient/soft/${id}`)
+        const result = await response.json();
+        if (result.success) {
+            revalidateTag('patients-list', { expire: 0 });
+            revalidateTag(`patient-${id}`, { expire: 0 });
+        }
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+export async function deletePatient(id: string) {
+    try {
+        const response = await serverFetch.delete(`/patient/${id}`)
+        const result = await response.json();
+        if (result.success) {
+            revalidateTag('patients-list', { expire: 0 });
+            revalidateTag(`patient-${id}`, { expire: 0 });
+        }
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
