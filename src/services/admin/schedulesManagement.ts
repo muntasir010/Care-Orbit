@@ -103,3 +103,21 @@ export async function getScheduleById(id: string) {
         };
     }
 }
+
+export async function deleteSchedule(id: string) {
+    try {
+        const response = await serverFetch.delete(`/schedule/${id}`)
+        const result = await response.json();
+        if (result.success) {
+            revalidateTag('schedules-list', { expire: 0 });
+            revalidateTag(`schedule-${id}`, { expire: 0 });
+        }
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
