@@ -56,3 +56,30 @@ export async function createSchedule(_prevState: any, formData: FormData) {
         };
     }
 }
+
+export async function getSchedules(queryString?: string) {
+    try {
+        const searchParams = new URLSearchParams(queryString);
+        const page = searchParams.get("page") || "1";
+        const searchTerm = searchParams.get("searchTerm") || "all";
+        const response = await serverFetch.get(`/schedule${queryString ? `?${queryString}` : ""}`, {
+            next: {
+                tags: [
+                    "schedules-list",
+                    `schedules-page-${page}`,
+                    `schedules-search-${searchTerm}`,
+                ],
+                // Reduced to 120s for more frequent updates on schedules
+                revalidate: 120,
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
