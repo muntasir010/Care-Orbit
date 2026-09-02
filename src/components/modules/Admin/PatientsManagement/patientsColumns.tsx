@@ -16,6 +16,7 @@ export const patientsColumns: Column<IPatient>[] = [
         photo={patient.profilePhoto}
       />
     ),
+    sortKey: "name",
   },
   {
     header: "Contact",
@@ -46,5 +47,6 @@ export const patientsColumns: Column<IPatient>[] = [
   {
     header: "Joined",
     accessor: (patient) => <DateCell date={patient.createdAt} />,
+    sortKey: "createdAt",
   },
 ];
