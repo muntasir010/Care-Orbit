@@ -40,12 +40,14 @@ export async function createSchedule(_prevState: any, formData: FormData) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(validation.data),
         });
+        console.log("Create schedule response:", response);
 
         const result = await response.json();
         if (result.success) {
             revalidateTag('schedules-list', { expire: 0 });
             revalidateTag('schedules-page-1', { expire: 0 });
         }
+        console.log("Create schedule result:", result);
         return result;
     } catch (error: any) {
         console.error("Create schedule error:", error);
@@ -73,7 +75,9 @@ export async function getSchedules(queryString?: string) {
                 revalidate: 120,
             },
         });
+        console.log("getSchedules response:", response);
         const result = await response.json();
+        console.log("getSchedules result:", result);
         return result;
     } catch (error: any) {
         console.log(error);

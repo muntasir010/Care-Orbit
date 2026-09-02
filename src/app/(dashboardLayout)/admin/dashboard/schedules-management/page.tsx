@@ -1,3 +1,4 @@
+import SchedulesFilter from "@/components/modules/Admin/SchedulesManagement/SchedulesFilter";
 import SchedulesManagementHeader from "@/components/modules/Admin/SchedulesManagement/SchedulesManagementHeader";
 import SchedulesTable from "@/components/modules/Admin/SchedulesManagement/SchedulesTable";
 import TablePagination from "@/components/shared/TablePagination";
@@ -23,6 +24,9 @@ const AdminSchedulesManagementPage = async ({
     <div className="space-y-6">
       <SchedulesManagementHeader />
 
+      {/* Filters */}
+      <SchedulesFilter/>
+      
       <Suspense fallback={<TableSkeleton columns={4} rows={10} />}>
         <SchedulesTable schedules={schedulesResult?.data || []} />
         <TablePagination
