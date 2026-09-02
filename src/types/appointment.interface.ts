@@ -3,7 +3,7 @@ import { IDoctor } from "./doctor.interface";
 import { IPatient } from "./patient.interface";
 import { IPrescription } from "./prescription.interface";
 import { IReview } from "./review.interface";
-import { ISchedule } from "./shedule.interface";
+import { ISchedule } from "./schedule.interface";
 
 export enum AppointmentStatus {
     SCHEDULED = "SCHEDULED",
