@@ -42,7 +42,7 @@ const SpecialtyMultiSelect = ({
       <FieldLabel htmlFor="specialties">Specialties (Required)</FieldLabel>
 
       {/* Hidden Inputs for Form Submission */}
-      <Input
+      {/* <Input
         type="hidden"
         name="specialties"
         value={JSON.stringify(
@@ -55,7 +55,19 @@ const SpecialtyMultiSelect = ({
           name="removeSpecialties"
           value={JSON.stringify(removedSpecialtyIds)}
         />
-      )}
+      )} */}
+      <input
+        type="hidden"
+        name="specialties"
+        value={JSON.stringify(
+          isEdit ? getNewSpecialties() : selectedSpecialtyIds,
+        )}
+      />
+      <input
+        type="hidden"
+        name="removeSpecialties"
+        value={JSON.stringify(Array.from(removedSpecialtyIds))}
+      />
 
       {/* Selected Specialties Display */}
       {selectedSpecialtyIds?.length > 0 && (

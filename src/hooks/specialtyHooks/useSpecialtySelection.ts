@@ -103,24 +103,13 @@ export const useSpecialtySelection = ({
     };
 
     useEffect(() => {
-        let cancelled = false;
-
         if (open && doctor) {
             const initialIds = getInitialSpecialtyIds();
-            // Defer the reset so the effect does not synchronously trigger a
-            // cascading render during commit.
-            queueMicrotask(() => {
-                if (cancelled) return;
-
-                setSelectedSpecialtyIds(initialIds);
-                setRemovedSpecialtyIds([]);
-                setCurrentSpecialtyId("");
-            });
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSelectedSpecialtyIds(initialIds);
+            setRemovedSpecialtyIds([]);
+            setCurrentSpecialtyId("");
         }
-
-        return () => {
-            cancelled = true;
-        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, doctor?.id]);
 

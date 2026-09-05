@@ -98,33 +98,65 @@ export async function getDoctorById(id: string) {
     }
 }
 
-export async function updateDoctor(id: string, _prevState: any, formData: FormData) {
+export async function updateDoctor(
+    id: string,
+    _prevState: any,
+    formData: FormData
+) {
     try {
-        const payload: Partial<IDoctor> = {
+        // Get specialty JSON strings from FormData
+        const specialtiesRaw = formData.get("specialties");
+        const removeSpecialtiesRaw = formData.get("removeSpecialties");
+
+        // Convert JSON string -> array
+        const specialties: string[] = specialtiesRaw
+            ? JSON.parse(specialtiesRaw as string)
+            : [];
+
+        const removeSpecialties: string[] = removeSpecialtiesRaw
+            ? JSON.parse(removeSpecialtiesRaw as string)
+            : [];
+
+        const payload = {
             name: formData.get("name") as string,
             contactNumber: formData.get("contactNumber") as string,
             address: formData.get("address") as string,
             registrationNumber: formData.get("registrationNumber") as string,
-            experience: Number(formData.get("experience") as string),
+            experience: Number(formData.get("experience")),
             gender: formData.get("gender") as "MALE" | "FEMALE",
-            appointmentFee: Number(formData.get("appointmentFee") as string),
+            appointmentFee: Number(formData.get("appointmentFee")),
             qualification: formData.get("qualification") as string,
             currentWorkingPlace: formData.get("currentWorkingPlace") as string,
             designation: formData.get("designation") as string,
-        }
-        const validatedPayload = zodValidator(payload, updateDoctorZodSchema).data;
+            specialties,
+            removeSpecialties,
+        };
+
+        const validatedPayload = zodValidator(
+            payload,
+            updateDoctorZodSchema
+        ).data;
 
         const response = await serverFetch.patch(`/doctor/${id}`, {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(validatedPayload),
-        })
+        });
+
         const result = await response.json();
+
         return result;
     } catch (error: any) {
-        console.log(error);
-        return { success: false, message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}` }
+        console.log(error, "UPDATE DOCTOR ERROR");
+
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Something went wrong",
+        };
     }
 }
 

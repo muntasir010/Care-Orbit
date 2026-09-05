@@ -26,4 +26,6 @@ export const updateDoctorZodSchema = z.object({
     qualification: z.string().optional(),
     currentWorkingPlace: z.string().optional(),
     designation: z.string().optional(),
+    specialties: z.array(z.string()).optional(),
+    removeSpecialties: z.array(z.string()).optional(),
 });

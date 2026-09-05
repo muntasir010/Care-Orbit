@@ -6,8 +6,6 @@ const BACKEND_API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhos
 const serverFetchHelper = async (endpoint: string, options: RequestInit): Promise<Response> => {
     const { headers, ...restOptions } = options;
 
-    console.log({ body: options.body });
-
     const accessToken = await getCookie("accessToken");
 
     const response = await fetch(`${BACKEND_API_URL}${endpoint}`, {
