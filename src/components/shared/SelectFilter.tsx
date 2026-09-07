@@ -5,8 +5,9 @@ import { useTransition } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface SelectFilterProps {
-  paramName: string; // ?gender=
+  paramName: string; 
   placeholder?: string;
+  defaultValue?: string;
   options: { label: string; value: string }[];
 }
 
