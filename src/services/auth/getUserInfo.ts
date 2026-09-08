@@ -1,32 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { UserInfo } from "@/types/user.interface";
 import { getCookie } from "./tokenHandler";
+import { serverFetch } from "@/lib/server-fetch";
 
-export const getUserInfo = async(): Promise<UserInfo | null> => {
-    try{
-        const accessToken = await getCookie("accessToken");
+export const getUserInfo = async (): Promise<UserInfo | null> => {
+  let userInfo: UserInfo | any;
 
-        if(!accessToken){
-            return null;
-        }
+  try {
+    const response = await serverFetch.get("/auth/me", {
+      next: { tags: ["user-info"], revalidate: 180 },
+    });
 
-        const verifiedToken = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET as string) as JwtPayload; 
+    const result = await response.json();
 
-        if(!verifiedToken){
-            return null;
-        }
+    if (result.success) {
+      const accessToken = await getCookie("accessToken");
 
-        const userInfo: UserInfo= {
-            name: verifiedToken.name || "Unknown User",
-            email: verifiedToken.email,
-            role: verifiedToken.role
-        };
-
-        return userInfo;
-
-    }catch(error: any){
-        console.log(error)
+      if (!accessToken) {
         return null;
+      }
+
+      const verifiedToken = jwt.verify(
+        accessToken,
+        process.env.JWT_ACCESS_SECRET as string,
+      ) as JwtPayload;
+
+      if (!verifiedToken) {
+        return null;
+      }
+
+       userInfo = {
+        name: verifiedToken.name || "Unknown User",
+        email: verifiedToken.email,
+        role: verifiedToken.role,
+      };
     }
-}
+
+    userInfo = {
+        name: result.data.admin?.name || result.data.doctor?.name || result.data.patient?.name || result.data.name || "Unknown User",
+        ...result.data
+    };
+
+    return userInfo;
+  } catch (error: any) {
+    console.log(error);
+    return null;
+  }
+};
