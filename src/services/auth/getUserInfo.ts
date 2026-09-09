@@ -4,11 +4,11 @@ import { UserInfo } from "@/types/user.interface";
 import { getCookie } from "./tokenHandler";
 import { serverFetch } from "@/lib/server-fetch";
 
-export const getUserInfo = async (): Promise<UserInfo | null> => {
+export const getUserInfo = async (): Promise<UserInfo | any> => {
   let userInfo: UserInfo | any;
 
   try {
-    const response = await serverFetch.get("/auth/me", {
+    const response = await serverFetch.get("/user/me", {
       next: { tags: ["user-info"], revalidate: 180 },
     });
 
@@ -30,7 +30,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
         return null;
       }
 
-       userInfo = {
+      userInfo = {
         name: verifiedToken.name || "Unknown User",
         email: verifiedToken.email,
         role: verifiedToken.role,
@@ -38,13 +38,23 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
     }
 
     userInfo = {
-        name: result.data.admin?.name || result.data.doctor?.name || result.data.patient?.name || result.data.name || "Unknown User",
-        ...result.data
+      name:
+        result.data.admin?.name ||
+        result.data.doctor?.name ||
+        result.data.patient?.name ||
+        result.data.name ||
+        "Unknown User",
+      ...result.data,
     };
 
     return userInfo;
   } catch (error: any) {
     console.log(error);
-    return null;
+    return {
+      id: "",
+      name: "Unknown User",
+      email: "",
+      role: "PATIENT",
+    };
   }
 };
