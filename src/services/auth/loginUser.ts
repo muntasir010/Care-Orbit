@@ -13,6 +13,7 @@ import { setCookie } from "./tokenHandler";
 import { loginValidationZodSchema } from "@/zod/auth.validation";
 import { zodValidator } from "@/lib/zodValidator";
 import { serverFetch } from "@/lib/server-fetch";
+import { revalidateTag } from "next/cache";
 
 export const loginUser = async (
   _currentState: any,
@@ -102,13 +103,18 @@ export const loginUser = async (
       throw new Error(result.message || "Login failed");
     }
 
-    if(result.data.needPasswordChange){
+    if (redirectTo && result.data.needPasswordChange) {
+      const requestedPath = redirectTo.toString();
+      if (isValidRedirectForRole(requestedPath, userRole)) {
+        redirect(`reset-password?redirect=${requestedPath}`);
+      } else {
+        redirect("/reset-password");
+      }
+    }
+    
+    if (result.data.needPasswordChange) {
       redirect("/reset-password");
     }
-
-    // if(redirectTo && result.data.needPasswordChange){
-    //   const requestedPath = redirectTo.tos
-    // }
 
     if (redirectTo) {
       const requestedPath = redirectTo.toString();
