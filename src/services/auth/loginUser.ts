@@ -102,6 +102,14 @@ export const loginUser = async (
       throw new Error(result.message || "Login failed");
     }
 
+    if(result.data.needPasswordChange){
+      redirect("/reset-password");
+    }
+
+    // if(redirectTo && result.data.needPasswordChange){
+    //   const requestedPath = redirectTo.tos
+    // }
+
     if (redirectTo) {
       const requestedPath = redirectTo.toString();
       if (isValidRedirectForRole(requestedPath, userRole)) {
