@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { serverFetch } from "@/lib/server-fetch";
+import { revalidateTag } from "next/cache";
 
 export async function getDoctorOwnSchedules(queryString?: string) {
     try {
@@ -32,6 +33,31 @@ export async function getAvailableSchedules() {
     try {
         const response = await serverFetch.get(`/schedule`);
         const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+export async function createDoctorSchedule(scheduleIds: string[]) {
+    try {
+        const response = await serverFetch.post(`/doctor-schedule`, {
+            body: JSON.stringify({ scheduleIds }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            revalidateTag('my-schedules', { expire: 0 });
+            revalidateTag('doctor-schedules-list', { expire: 0 });
+            revalidateTag('schedules-list', { expire: 0 });
+        }
         return result;
     } catch (error: any) {
         console.log(error);
