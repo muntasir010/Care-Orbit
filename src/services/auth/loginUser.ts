@@ -13,7 +13,6 @@ import { setCookie } from "./tokenHandler";
 import { loginValidationZodSchema } from "@/zod/auth.validation";
 import { zodValidator } from "@/lib/zodValidator";
 import { serverFetch } from "@/lib/server-fetch";
-import { revalidateTag } from "next/cache";
 
 export const loginUser = async (
   _currentState: any,

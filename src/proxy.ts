@@ -9,11 +9,31 @@ import {
 } from "./lib/auth-utils";
 import { deleteCookie, getCookie } from "./services/auth/tokenHandler";
 import { getUserInfo } from "./services/auth/getUserInfo";
+import { getNewAccessToken } from "./services/auth/auth.service";
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const hasTokenRefreshedParam =
+    request.nextUrl.searchParams.has("tokenRefreshed");
 
+  // If coming back after token refresh, remove the param and continue
+  if (hasTokenRefreshedParam) {
+    const url = request.nextUrl.clone();
+    url.searchParams.delete("tokenRefreshed");
+    return NextResponse.redirect(url);
+  }
+
+  const tokenRefreshResult = await getNewAccessToken();
+
+  // If token was refreshed, redirect to same page to fetch with new token
+  if (tokenRefreshResult?.tokenRefreshed) {
+    const url = request.nextUrl.clone();
+    url.searchParams.set("tokenRefreshed", "true");
+    return NextResponse.redirect(url);
+  }
+
+  // const accessToken = request.cookies.get("accessToken")?.value || null;
   const accessToken = (await getCookie("accessToken")) || null;
 
   let userRole: UserRole | null = null;
