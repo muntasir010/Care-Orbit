@@ -16,26 +16,47 @@ import { serverFetch } from "@/lib/server-fetch";
 
 export const loginUser = async (
   _currentState: any,
-  formData: any,
+  formData: FormData,
 ): Promise<any> => {
   try {
-    const redirectTo = formData.get("redirect") || null;
+    /**
+     * 1. Get redirect path
+     */
+
+    const redirectTo = formData.get("redirect");
+
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
+
+    /**
+     * 2. Login payload
+     */
 
     const payload = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
 
-    if (zodValidator(payload, loginValidationZodSchema).success === false) {
-      return zodValidator(payload, loginValidationZodSchema);
-    }
+    /**
+     * 3. Validate login payload
+     */
 
-    const validatedPayload = zodValidator(
+    const validation = zodValidator(
       payload,
       loginValidationZodSchema,
-    ).data;
+    );
+
+    if (!validation.success) {
+      return validation;
+    }
+
+    const validatedPayload = validation.data;
+
+    /**
+     * 4. Login API
+     * /auth/login is excluded from automatic refresh
+     * inside serverFetch.
+     */
 
     const res = await serverFetch.post("/auth/login", {
       body: JSON.stringify(validatedPayload),
@@ -46,94 +67,206 @@ export const loginUser = async (
 
     const result = await res.json();
 
-    const setCookieHeaders = res.headers.getSetCookie();
+    /**
+     * 5. Check API response
+     */
 
-    if (setCookieHeaders && setCookieHeaders.length > 0) {
-      setCookieHeaders.forEach((cookie: string) => {
-        const parsedCookie = parseCookie(cookie);
-
-        if (parsedCookie["accessToken"]) {
-          accessTokenObject = parsedCookie;
-        }
-        if (parsedCookie["refreshToken"]) {
-          refreshTokenObject = parsedCookie;
-        }
-      });
-    } else {
-      throw new Error("No Set-Cookie header found");
+    if (!result.success) {
+      throw new Error(
+        result.message || "Login failed",
+      );
     }
 
+    /**
+     * 6. Read Set-Cookie headers
+     */
+
+    const setCookieHeaders =
+      res.headers.getSetCookie();
+
+    if (
+      !setCookieHeaders ||
+      setCookieHeaders.length === 0
+    ) {
+      throw new Error(
+        "No Set-Cookie header found",
+      );
+    }
+
+    setCookieHeaders.forEach((cookie: string) => {
+      const parsedCookie = parseCookie(cookie);
+
+      if (parsedCookie["accessToken"]) {
+        accessTokenObject = parsedCookie;
+      }
+
+      if (parsedCookie["refreshToken"]) {
+        refreshTokenObject = parsedCookie;
+      }
+    });
+
+    /**
+     * 7. Validate tokens
+     */
+
     if (!accessTokenObject) {
-      throw new Error("Tokens not found in cookies");
+      throw new Error(
+        "Access token not found in cookies",
+      );
     }
 
     if (!refreshTokenObject) {
-      throw new Error("Tokens not found in cookies");
+      throw new Error(
+        "Refresh token not found in cookies",
+      );
     }
 
-    await setCookie("accessToken", accessTokenObject.accessToken, {
-      secure: true,
-      httpOnly: true,
-      maxAge: parseInt(accessTokenObject["Max-Age"]) || 1000 * 60 * 60,
-      path: accessTokenObject.Path || "/",
-      sameSite: accessTokenObject["SameSite"] || "none",
-    });
+    /**
+     * 8. Save access token
+     */
 
-    await setCookie("refreshToken", refreshTokenObject.refreshToken, {
-      secure: true,
-      httpOnly: true,
-      maxAge:
-        parseInt(refreshTokenObject["Max-Age"]) || 1000 * 60 * 60 * 24 * 90,
-      path: refreshTokenObject.Path || "/",
-      sameSite: refreshTokenObject["SameSite"] || "none",
-    });
-    const verifiedToken: JwtPayload | string = jwt.verify(
+    const isProduction =
+      process.env.NODE_ENV === "production";
+
+    await setCookie(
+      "accessToken",
       accessTokenObject.accessToken,
-      process.env.JWT_ACCESS_SECRET as string,
+      {
+        secure: isProduction,
+        httpOnly: true,
+
+        maxAge:
+          parseInt(
+            accessTokenObject["Max-Age"],
+          ) || 60 * 60,
+
+        path: "/",
+
+        sameSite: isProduction
+          ? "none"
+          : "lax",
+      },
     );
+
+    /**
+     * 9. Save refresh token
+     */
+
+    await setCookie(
+      "refreshToken",
+      refreshTokenObject.refreshToken,
+      {
+        secure: isProduction,
+        httpOnly: true,
+
+        maxAge:
+          parseInt(
+            refreshTokenObject["Max-Age"],
+          ) ||
+          60 * 60 * 24 * 90,
+
+        path: "/",
+
+        sameSite: isProduction
+          ? "none"
+          : "lax",
+      },
+    );
+
+    /**
+     * 10. Verify access token
+     */
+
+    const verifiedToken: JwtPayload | string =
+      jwt.verify(
+        accessTokenObject.accessToken,
+        process.env.JWT_ACCESS_SECRET as string,
+      );
 
     if (typeof verifiedToken === "string") {
       throw new Error("Invalid token");
     }
 
-    const userRole: UserRole = verifiedToken.role;
+    const userRole =
+      verifiedToken.role as UserRole;
 
-    if (!result.success) {
-      throw new Error(result.message || "Login failed");
-    }
+    /**
+     * 11. Handle needPasswordChange
+     */
 
-    if (redirectTo && result.data.needPasswordChange) {
-      const requestedPath = redirectTo.toString();
-      if (isValidRedirectForRole(requestedPath, userRole)) {
-        redirect(`reset-password?redirect=${requestedPath}`);
-      } else {
-        redirect("/reset-password");
+    if (result.data?.needPasswordChange) {
+      const requestedPath =
+        redirectTo?.toString();
+
+      if (
+        requestedPath &&
+        isValidRedirectForRole(
+          requestedPath,
+          userRole,
+        )
+      ) {
+        redirect(
+          `/reset-password?redirect=${encodeURIComponent(
+            requestedPath,
+          )}`,
+        );
       }
-    }
-    
-    if (result.data.needPasswordChange) {
+
       redirect("/reset-password");
     }
 
+    /**
+     * 12. Normal successful login
+     */
+
     if (redirectTo) {
-      const requestedPath = redirectTo.toString();
-      if (isValidRedirectForRole(requestedPath, userRole)) {
-        redirect(`${requestedPath}?loggedIn=true`);
-      } else {
-        redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
+      const requestedPath =
+        redirectTo.toString();
+
+      if (
+        isValidRedirectForRole(
+          requestedPath,
+          userRole,
+        )
+      ) {
+        /**
+         * IMPORTANT:
+         * No ?loggedIn=true
+         */
+        redirect(requestedPath);
       }
-    } else {
-      redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
     }
+
+    /**
+     * 13. Default dashboard
+     */
+
+    redirect(
+      getDefaultDashboardRoute(userRole),
+    );
   } catch (error: any) {
-    // Re-throw NEXT_REDIRECT errors so Next.js can handle them
-    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+    /**
+     * Next.js redirect throws a special error.
+     * We must re-throw it.
+     */
+
+    if (
+      error?.digest?.startsWith("NEXT_REDIRECT")
+    ) {
       throw error;
     }
-    console.log(error);
+
+    console.error(
+      "LOGIN ERROR:",
+      error,
+    );
+
     return {
       success: false,
-      message: `${process.env.NODE_ENV === "development" ? error.message : "Login Failed. You might have entered incorrect email or password."}`,
+      message:
+        process.env.NODE_ENV === "development"
+          ? error?.message
+          : "Login Failed. You might have entered incorrect email or password.",
     };
   }
 };

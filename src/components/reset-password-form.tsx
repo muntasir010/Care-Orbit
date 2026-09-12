@@ -47,9 +47,9 @@ const ResetPasswordForm = ({
       {redirect && <Input type="hidden" name="redirect" value={redirect} />}
       {email && <Input type="hidden" name="email" value={email} />}
       {token && <Input type="hidden" name="token" value={token} />}
-      {email && token && (
+      {/* {email && token && (
         <Input type="hidden" name="isEmailReset" value="true" />
-      )}
+      )} */}
       <Input
         type="hidden"
         name="isEmailReset"
