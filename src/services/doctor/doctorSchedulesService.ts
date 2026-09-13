@@ -61,6 +61,7 @@ export async function createDoctorSchedule(scheduleIds: string[]) {
       revalidateTag("doctor-schedules-list", { expire: 0 });
       revalidateTag("schedules-list", { expire: 0 });
     }
+    console.log(result, "doctor schedule result")
     return result;
   } catch (error: any) {
     console.log(error);
