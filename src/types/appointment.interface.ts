@@ -32,6 +32,7 @@ export interface IAppointment {
     updatedAt: string;
     prescription?: IPrescription;
     review?: IReview;
+    // payment?: IPayment;
 }
 
 export interface IPayment {
