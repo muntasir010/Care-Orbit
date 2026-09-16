@@ -89,3 +89,49 @@ export async function getMyAppointments(queryString?: string) {
         };
     }
 }
+
+export async function getAppointmentById(appointmentId: string) {
+    try {
+        const response = await serverFetch.get('/appointment/my-appointment', {
+            next: {
+                tags: ["my-appointments", `appointment-${appointmentId}`],
+                revalidate: 180,
+            },
+        });
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            // Find the appointment by ID from the list
+            const appointment = result.data.find((apt: any) => apt.id === appointmentId);
+
+            if (appointment) {
+                return {
+                    success: true,
+                    data: appointment,
+                };
+            } else {
+                return {
+                    success: false,
+                    data: null,
+                    message: "Appointment not found",
+                };
+            }
+        }
+
+        return {
+            success: false,
+            data: null,
+            message: result.message || "Failed to fetch appointment",
+        };
+    } catch (error: any) {
+        console.error("Error fetching appointment:", error);
+        return {
+            success: false,
+            data: null,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Failed to fetch appointment",
+        };
+    }
+}
