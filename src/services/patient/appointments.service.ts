@@ -64,3 +64,28 @@ export async function createAppointmentWithPayLater(data: IAppointmentFormData) 
         };
     }
 }
+
+export async function getMyAppointments(queryString?: string) {
+    try {
+        const response = await serverFetch.get(
+            `/appointment/my-appointment${queryString ? `?${queryString}` : "?sortBy=createdAt&sortOrder=desc"}`, {
+            next: {
+                tags: ["my-appointments"],
+                revalidate: 120,
+            },
+        }
+        );
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.error("Error fetching appointments:", error);
+        return {
+            success: false,
+            data: [],
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Failed to fetch appointments",
+        };
+    }
+}
