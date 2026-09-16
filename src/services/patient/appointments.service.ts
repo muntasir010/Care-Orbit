@@ -135,3 +135,42 @@ export async function getAppointmentById(appointmentId: string) {
         };
     }
 }
+
+export async function changeAppointmentStatus(
+    appointmentId: string,
+    status: string
+) {
+    try {
+        const response = await serverFetch.patch(
+            `/appointment/status/${appointmentId}`,
+            {
+                body: JSON.stringify({ status }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Invalidate appointment caches
+            revalidateTag('my-appointments', { expire: 0 });
+            revalidateTag('appointments-list', { expire: 0 });
+            revalidateTag(`appointment-${appointmentId}`, { expire: 0 });
+            // Update dashboard for immediate status reflection
+            revalidateTag('patient-dashboard-meta', { expire: 0 });
+            revalidateTag('dashboard-meta', { expire: 0 });
+        }
+        return result;
+    } catch (error: any) {
+        console.error("Error changing appointment status:", error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Failed to change appointment status",
+        };
+    }
+}
