@@ -2,6 +2,8 @@
 "use server"
 
 import { serverFetch } from "@/lib/server-fetch";
+import { IReviewFormData } from "@/types/review.interface";
+import { revalidateTag } from "next/cache";
 
 export async function getReviews(queryString?: string) {
     try {
@@ -27,6 +29,35 @@ export async function getReviews(queryString?: string) {
             success: false,
             message: error.message || "Failed to fetch reviews",
             data: null,
+        };
+    }
+}
+
+export async function createReview(data: IReviewFormData) {
+    try {
+        const response = await serverFetch.post("/review", {
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        const result = await response.json();
+
+        if (result.success && data.doctorId) {
+            revalidateTag('reviews-list', { expire: 0 });
+            revalidateTag(`doctor-${data.doctorId}`, { expire: 0 }); // Update doctor's review count
+        }
+
+        return result;
+    } catch (error: any) {
+        console.error("Error creating review:", error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Failed to create review",
         };
     }
 }
