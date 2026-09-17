@@ -136,10 +136,7 @@ export async function getAppointmentById(appointmentId: string) {
     }
 }
 
-export async function changeAppointmentStatus(
-    appointmentId: string,
-    status: string
-) {
+export async function changeAppointmentStatus( appointmentId: string, status: string ) {
     try {
         const response = await serverFetch.patch(
             `/appointment/status/${appointmentId}`,
