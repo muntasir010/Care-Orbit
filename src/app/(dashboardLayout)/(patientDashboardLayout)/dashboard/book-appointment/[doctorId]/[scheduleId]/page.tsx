@@ -12,18 +12,23 @@ interface BookAppointmentPageProps {
   }>;
 }
 
+
+
 export default async function BookAppointmentPage({
   params,
 }: BookAppointmentPageProps) {
   const { doctorId, scheduleId } = await params;
 
-  // Fetch doctor and schedule in parallel
   const [doctorResponse, scheduleResponse] = await Promise.all([
     getDoctorById(doctorId),
     getScheduleById(scheduleId),
   ]);
 
-  if (!doctorResponse?.success || !scheduleResponse?.success) {
+  if (!doctorResponse?.success) {
+    notFound();
+  }
+
+  if (!scheduleResponse?.success) {
     notFound();
   }
 
@@ -32,7 +37,10 @@ export default async function BookAppointmentPage({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <AppointmentConfirmation doctor={doctor} schedule={schedule} />
+      <AppointmentConfirmation
+        doctor={doctor}
+        schedule={schedule}
+      />
     </div>
   );
 }
