@@ -30,6 +30,7 @@ import {
 } from "@/types/appointment.interface";
 import { toast } from "sonner";
 import AppointmentCountdown from "./AppointmentCountdown";
+import ReviewDialog from "./ReviewDialog";
 
 interface AppointmentDetailProps {
   appointment: IAppointment;
@@ -529,14 +530,14 @@ const AppointmentDetails = ({ appointment }: AppointmentDetailProps) => {
       )}
 
       {/* Review Dialog */}
-      {/* {canReview && (
+      {canReview && (
         <ReviewDialog
           isOpen={showReviewDialog}
           onClose={() => setShowReviewDialog(false)}
           appointmentId={appointment.id}
           doctorName={appointment.doctor?.name || "the doctor"}
         />
-      )} */}
+      )}
     </div>
   );
 };
