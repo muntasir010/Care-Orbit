@@ -68,10 +68,10 @@ export default function DoctorCard({ doctor }: DoctorCard) {
               <Clock className="h-4 w-4 shrink-0" />
               <span className="truncate">{doctor.experience} years exp</span>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center text-muted-foreground">
               <DollarSign className="h-4 w-4 shrink-0" />
               <span className="font-semibold text-foreground">
-                ${doctor.appointmentFee}
+                {doctor.appointmentFee}
               </span>
             </div>
           </div>

@@ -6,7 +6,7 @@ import { zodValidator } from "@/lib/zodValidator";
 import { revalidateTag } from "next/cache";
 import jwt from "jsonwebtoken";
 import { parseCookie } from "cookie";
-import {  resetPasswordSchema } from "@/zod/auth.validation";
+import {  forgotPasswordSchema, resetPasswordSchema } from "@/zod/auth.validation";
 import { deleteCookie, getCookie, setCookie } from "./tokenHandler";
 import { verifyAccessToken } from "@/lib/jwtHandlers";
 
@@ -346,3 +346,54 @@ export async function getNewAccessToken() {
     };
   }
 } 
+
+export async function forgotPassword(_prevState: any, formData: FormData) {
+    // Build validation payload
+    const validationPayload = {
+        email: formData.get("email") as string,
+    };
+
+    // Validate
+    const validatedPayload = zodValidator(
+        validationPayload,
+        forgotPasswordSchema
+    );
+
+    if (!validatedPayload.success && validatedPayload.errors) {
+        return {
+            success: false,
+            message: "Validation failed",
+            formData: validationPayload,
+            errors: validatedPayload.errors,
+        };
+    }
+
+    try {
+        // API Call
+        const response = await serverFetch.post("/auth/forgot-password", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: validationPayload.email,
+            }),
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message || "Failed to send reset link");
+        }
+
+        return {
+            success: true,
+            message: "Password reset link has been sent to your email!",
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message || "Something went wrong",
+            formData: validationPayload,
+        };
+    }
+}
