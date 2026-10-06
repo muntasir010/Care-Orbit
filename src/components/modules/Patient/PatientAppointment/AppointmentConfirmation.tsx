@@ -2,7 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { createAppointment, createAppointmentWithPayLater } from "@/services/patient/appointments.service";
+import {
+  createAppointment,
+  createAppointmentWithPayLater,
+} from "@/services/patient/appointments.service";
 import { IDoctor } from "@/types/doctor.interface";
 import { ISchedule } from "@/types/schedule.interface";
 import { format } from "date-fns";
@@ -37,7 +40,10 @@ const AppointmentConfirmation = ({
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const handleConfirmBooking = async () => {
+    if (isPayingNow || isPayingLater || isBooking) return;
+
     setIsPayingNow(true);
+    setIsBooking(true);
 
     try {
       const result = await createAppointment({
@@ -47,29 +53,36 @@ const AppointmentConfirmation = ({
 
       if (result.success && result.data?.paymentUrl) {
         toast.success("Redirecting to payment...");
-        // Redirect to Stripe checkout
         window.location.replace(result.data.paymentUrl);
-      } else if (result.success) {
+        return;
+      }
+
+      if (result.success) {
         setBookingSuccess(true);
         toast.success("Appointment booked successfully!");
 
-        // Redirect after 2 seconds
         setTimeout(() => {
           router.push("/dashboard/my-appointments");
         }, 2000);
-      } else {
-        toast.error(result.message || "Failed to book appointment");
-        setIsPayingNow(false);
+
+        return;
       }
+
+      toast.error(result.message || "Failed to book appointment");
     } catch (error) {
-      toast.error("An error occurred while booking the appointment");
-      setIsPayingNow(false);
       console.error(error);
+      toast.error("An error occurred while booking the appointment");
+    } finally {
+      setIsPayingNow(false);
+      setIsBooking(false);
     }
   };
 
   const handlePayLater = async () => {
+    if (isPayingNow || isPayingLater || isBooking) return;
+
     setIsPayingLater(true);
+    setIsBooking(true);
 
     try {
       const result = await createAppointmentWithPayLater({
@@ -79,22 +92,25 @@ const AppointmentConfirmation = ({
 
       if (result.success) {
         setBookingSuccess(true);
+
         toast.success(
-          "Appointment booked! You can pay later from your appointments page."
+          "Appointment booked! You can pay later from your appointments page.",
         );
 
-        // Redirect after 2 seconds
         setTimeout(() => {
           router.push("/dashboard/my-appointments");
         }, 2000);
-      } else {
-        toast.error(result.message || "Failed to book appointment");
-        setIsPayingLater(false);
+
+        return;
       }
+
+      toast.error(result.message || "Failed to book appointment");
     } catch (error) {
-      toast.error("An error occurred while booking the appointment");
-      setIsPayingLater(false);
       console.error(error);
+      toast.error("An error occurred while booking the appointment");
+    } finally {
+      setIsPayingLater(false);
+      setIsBooking(false);
     }
   };
 
@@ -313,7 +329,7 @@ const AppointmentConfirmation = ({
             <div className="space-y-3 pt-2">
               <Button
                 onClick={handleConfirmBooking}
-                disabled={isBooking}
+                disabled={isBooking || isPayingNow || isPayingLater}
                 className="w-full"
                 size="lg"
               >
@@ -332,7 +348,7 @@ const AppointmentConfirmation = ({
 
               <Button
                 onClick={handlePayLater}
-                disabled={isBooking}
+                disabled={isBooking || isPayingNow || isPayingLater}
                 variant="outline"
                 className="w-full"
                 size="lg"
@@ -353,7 +369,7 @@ const AppointmentConfirmation = ({
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
-                disabled={isBooking}
+                disabled={isBooking || isPayingNow || isPayingLater}
                 className="w-full"
               >
                 Go Back
