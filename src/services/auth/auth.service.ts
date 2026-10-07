@@ -81,7 +81,7 @@ export async function resetPassword(_prevState: any, formData: FormData) {
 
   try {
     if (token) {
-      jwt.verify(token, process.env.RESET_PASS_TOKEN as string);
+      jwt.verify(token, process.env.JWT_RESET_PASS_SECRET as string);
     }
 
     let response;
