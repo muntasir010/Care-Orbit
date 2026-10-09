@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { Button } from "../ui/button";
 import { getCookie } from "@/services/auth/tokenHandler";
-import LogoutButton from "./LogoutButton";
+import { getUserInfo } from "@/services/auth/getUserInfo";
+import { getDefaultDashboardRoute } from "@/lib/auth-utils";
+import AISearchDialog from "./AISearchDialog";
+import NavbarAuthButtons from "./NavbarAuthButton";
+import MobileMenu from "./MobileMenu";
 
-const PublicNavbar = async() => {
+const PublicNavbar = async () => {
   const navItems = [
     { href: "#", label: "Consultation" },
     { href: "#", label: "Health Plans" },
@@ -15,11 +16,17 @@ const PublicNavbar = async() => {
   ];
 
   const accessToken = await getCookie("accessToken");
+  const userInfo = accessToken ? await getUserInfo() : null;
+  const dashboardRoute = userInfo
+    ? getDefaultDashboardRoute(userInfo.role)
+    : "/";
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white/70 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl lg:text-2xl font-bold text-primary ">Care Orbit</span>
+          <span className="text-xl lg:text-2xl font-bold text-primary ">
+            Care Orbit
+          </span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -33,46 +40,22 @@ const PublicNavbar = async() => {
             </Link>
           ))}
         </nav>
-
         <div className="hidden md:flex items-center space-x-2">
-         {accessToken ? (
-            <LogoutButton />
-          ) : (
-            <Link href="/login">
-              <Button>Login</Button>
-            </Link>
-          )}
+          <AISearchDialog />
+          <NavbarAuthButtons
+            initialHasToken={!!accessToken}
+            initialUserInfo={userInfo}
+            initialDashboardRoute={dashboardRoute}
+          />
         </div>
 
         {/* Mobile Menu */}
-
-        <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 hover:bg-accent hover:text-accent-foreground">
-              <Menu />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-4">
-              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-              <nav className="flex flex-col space-y-4 mt-8">
-                {navItems.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="text-lg font-medium"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <div className="border-t pt-4 flex flex-col space-y-4">
-                  <div className="flex justify-center"></div>
-                  <Link href="/login" className="text-lg font-medium">
-                    <Button>Login</Button>
-                  </Link>
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
+        <MobileMenu
+          navItems={navItems}
+          hasAccessToken={!!accessToken}
+          userInfo={userInfo}
+          dashboardRoute={dashboardRoute}
+        />
       </div>
     </header>
   );
