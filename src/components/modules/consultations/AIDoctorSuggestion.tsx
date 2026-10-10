@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { getAIDoctorSuggestion } from "@/services/ai/ai.service";
+import { AISuggestedDoctor } from "@/types/ai.interface";
 
 import {
   Award,
@@ -31,7 +33,7 @@ export default function AIDoctorSuggestion() {
   const [symptoms, setSymptoms] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedDoctors, setSuggestedDoctors] = useState<AISuggestedDoctor[]>(
-    [],
+    []
   );
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -46,17 +48,17 @@ export default function AIDoctorSuggestion() {
     setShowSuggestions(false);
 
     try {
-    //   const response = await getAIDoctorSuggestion(symptoms);
-    //   if (response.success && response.data) {
-    //     const doctors = Array.isArray(response.data)
-    //       ? response.data
-    //       : [response.data];
-    //     setSuggestedDoctors(doctors);
-    //     setShowSuggestions(true);
-    //     toast.success("AI suggestions generated successfully!");
-    //   } else {
-    //     toast.error(response.message || "Failed to get AI suggestions");
-    //   }
+      const response = await getAIDoctorSuggestion(symptoms);
+      if (response.success && response.data) {
+        const doctors = Array.isArray(response.data)
+          ? response.data
+          : [response.data];
+        setSuggestedDoctors(doctors);
+        setShowSuggestions(true);
+        toast.success("AI suggestions generated successfully!");
+      } else {
+        toast.error(response.message || "Failed to get AI suggestions");
+      }
     } catch (error) {
       console.error("Error getting AI suggestion:", error);
       toast.error("Failed to get AI suggestion. Please try again.");
@@ -66,7 +68,7 @@ export default function AIDoctorSuggestion() {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-primary/5 via-white to-primary/5 border-primary/20 shadow-lg">
+    <Card className="bg-linear-to-br from-primary/5 via-white to-primary/5 border-primary/20 shadow-lg">
       <CardHeader>
         <div className="flex items-center gap-2">
           <div className="p-2 bg-primary rounded-lg">
@@ -140,7 +142,7 @@ export default function AIDoctorSuggestion() {
               {suggestedDoctors.map((doctor, index) => (
                 <div
                   key={doctor.id || index}
-                  className="p-4 bg-gradient-to-br from-primary/5 to-white rounded-lg border border-primary/20 hover:shadow-md transition-shadow"
+                  className="p-4 bg-linear-to-br from-primary/5 to-white rounded-lg border border-primary/20 hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-start gap-4">
                     {/* Doctor Number Badge */}
@@ -175,7 +177,7 @@ export default function AIDoctorSuggestion() {
                     </div>
 
                     {/* Doctor Info */}
-                    <div className="flex-1 space-y-2 min-h-[180px] flex flex-col">
+                    <div className="flex-1 space-y-2 min-h-44 flex flex-col">
                       <div>
                         <div className="flex items-center gap-2">
                           <h4 className="font-semibold text-gray-900">
