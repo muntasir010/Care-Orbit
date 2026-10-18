@@ -9,9 +9,10 @@ import { Suspense } from "react";
 async function AdminDashboardContent() {
   const result = await getDashboardMetaData();
 
-  const data: IAdminDashboardMeta = result.data;
+  const data: IAdminDashboardMeta = result?.data;
 
-  const totalRevenue = data.totalRevenue?._sum?.amount || 0;
+  const totalRevenue = data.totalRevenue?._sum?.amount ||  0;
+  console.log("Admin Dashboard Data:", totalRevenue, data?.totalRevenue); // Debugging line to check the structure of data
 
   return (
     <div className="space-y-6">
