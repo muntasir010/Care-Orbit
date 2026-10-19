@@ -93,14 +93,22 @@ export function AppointmentPieChart({
   };
 
   // Format data for recharts
-  const formattedData = data.map((item) => ({
+const formattedData = (data ?? [])
+  .filter(
+    (item) =>
+      item !== null &&
+      typeof item.status === "string" &&
+      typeof item.count === "number"
+  )
+  .map((item) => ({
     name: item.status
       .replace(/_/g, " ")
       .toLowerCase()
-      .replace(/\b\w/g, (l) => l.toUpperCase()),
-    value: Number(item.count),
+      .replace(/\b\w/g, (letter) => letter.toUpperCase()),
+    value: item.count,
     originalStatus: item.status,
   }));
+
 
   const getColor = (index: number, status?: string) => {
     if (status && STATUS_COLORS[status]) {

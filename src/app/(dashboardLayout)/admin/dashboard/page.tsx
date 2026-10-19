@@ -71,7 +71,7 @@ async function AdminDashboardContent() {
       {/* Charts Section */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <AppointmentBarChart data={data.barChartData} />
-        <AppointmentPieChart data={data.pieCharData} />
+        <AppointmentPieChart data={data.pieChartData} />
       </div>
     </div>
   );

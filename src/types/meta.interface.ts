@@ -20,7 +20,7 @@ export interface IAdminDashboardMeta {
         };
     };
     barChartData: IBarChartData[];
-    pieCharData: IPieChartData[];
+    pieChartData: IPieChartData[];
 }
 
 export interface IDoctorDashboardMeta {
