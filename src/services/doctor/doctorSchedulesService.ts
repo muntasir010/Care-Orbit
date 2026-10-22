@@ -23,7 +23,6 @@ export async function getDoctorOwnSchedules(queryString?: string) {
       meta: result.meta,
     };
   } catch (error: any) {
-    console.log(error);
     return {
       success: false,
       data: [],
@@ -38,7 +37,6 @@ export async function getAvailableSchedules() {
     const result = await response.json();
     return result;
   } catch (error: any) {
-    console.log(error);
     return {
       success: false,
       message: `${process.env.NODE_ENV === "development" ? error.message : "Something went wrong"}`,
@@ -61,10 +59,8 @@ export async function createDoctorSchedule(scheduleIds: string[]) {
       revalidateTag("doctor-schedules-list", { expire: 0 });
       revalidateTag("schedules-list", { expire: 0 });
     }
-    console.log(result, "doctor schedule result")
     return result;
   } catch (error: any) {
-    console.log(error);
     return {
       success: false,
       message: `${process.env.NODE_ENV === "development" ? error.message : "Something went wrong"}`,
@@ -88,7 +84,6 @@ export async function deleteDoctorOwnSchedule(scheduleId: string) {
       message: result.message || "Schedule removed successfully",
     };
   } catch (error: any) {
-    console.error("Delete schedule error:", error);
     return {
       success: false,
       message: error.message || "Failed to remove schedule",

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown, Filter, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 
 export interface MultiSelectOption {
   value: string;
@@ -48,7 +48,7 @@ interface MultiSelectFilterProps {
  *   showBadges={true}
  * />
  */
-const MultiSelectFilter = ({
+const MultiSelectFilterContent = ({
   paramName,
   options,
   placeholder = "Select options",
@@ -247,4 +247,17 @@ const MultiSelectFilter = ({
   );
 };
 
-export default MultiSelectFilter;
+
+export default function MultiSelectFilter(
+  props: MultiSelectFilterProps
+) {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-12 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <MultiSelectFilterContent {...props} />
+    </Suspense>
+  );
+}

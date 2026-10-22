@@ -96,7 +96,6 @@ export async function createDoctor(_prevState: any, formData: FormData) {
         }
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`,
@@ -112,7 +111,6 @@ export async function getDoctors(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -126,7 +124,6 @@ export async function getDoctorById(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -184,7 +181,6 @@ export async function updateDoctor(
 
         return result;
     } catch (error: any) {
-        console.log(error, "UPDATE DOCTOR ERROR");
 
         return {
             success: false,
@@ -203,7 +199,6 @@ export async function softDeleteDoctor(id: string) {
 
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -218,7 +213,6 @@ export async function deleteDoctor(id: string) {
 
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`

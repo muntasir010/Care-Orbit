@@ -34,7 +34,6 @@ export async function createSpecialty(_prevState: any, formData: FormData) {
 
     return result;
   } catch (error: any) {
-    console.log(error);
     return {
       success: false,
       message: `${process.env.NODE_ENV === "development" ? error.message : "Something went wrong"}`,
@@ -48,7 +47,6 @@ export async function getSpecialties() {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -62,7 +60,6 @@ export async function deleteSpecialty(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`

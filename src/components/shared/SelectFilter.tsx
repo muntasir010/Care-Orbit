@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { Suspense, useTransition } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface SelectFilterProps {
@@ -11,7 +11,7 @@ interface SelectFilterProps {
   options: { label: string; value: string }[];
 }
 
-const SelectFilter = ({
+const SelectFilterContent = ({
   paramName,
   placeholder,
   options,
@@ -59,4 +59,14 @@ const SelectFilter = ({
   );
 };
 
-export default SelectFilter;
+export default function SelectFilter(props: SelectFilterProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-12 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <SelectFilterContent {...props} />
+    </Suspense>
+  );
+}

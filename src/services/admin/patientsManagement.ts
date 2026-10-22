@@ -24,7 +24,6 @@ export async function getPatients(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -43,7 +42,6 @@ export async function getPatientById(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -93,7 +91,6 @@ export async function updatePatient(id: string, _prevState: any, formData: FormD
         }
         return result;
     } catch (error: any) {
-        console.error("Update patient error:", error);
         return {
             success: false,
             message: process.env.NODE_ENV === 'development' ? error.message : 'Failed to update patient',
@@ -112,7 +109,6 @@ export async function softDeletePatient(id: string) {
         }
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
@@ -130,7 +126,6 @@ export async function deletePatient(id: string) {
         }
         return result;
     } catch (error: any) {
-        console.log(error);
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`

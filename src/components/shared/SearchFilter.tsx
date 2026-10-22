@@ -1,7 +1,7 @@
 "use client";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { Suspense, useEffect, useState, useTransition } from "react";
 import { Input } from "../ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -10,7 +10,7 @@ interface SearchFilterProps {
   paramName?: string;
 }
 
-const SearchFilter = ({
+const SearchFilterContent = ({
   placeholder = "Search...",
   paramName = "searchTerm",
 }: SearchFilterProps) => {
@@ -57,6 +57,15 @@ const SearchFilter = ({
   );
 };
 
-export default SearchFilter;
 
-
+export default function SearchFilter(props: SearchFilterProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-12 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <SearchFilterContent {...props} />
+    </Suspense>
+  );
+}

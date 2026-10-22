@@ -62,7 +62,6 @@ export const registerPatient = async (
     // If loginUser redirects, the redirect exception is thrown and caught below
     return loginResult;
   } catch (error: any) {
-    console.log(error);
     // Re-throw NEXT_REDIRECT errors so Next.js can handle them (from loginUser)
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;

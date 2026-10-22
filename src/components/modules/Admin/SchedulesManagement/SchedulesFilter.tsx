@@ -5,9 +5,9 @@ import RefreshButton from "@/components/shared/RefreshButton";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { Suspense, useEffect, useState, useTransition } from "react";
 
-const SchedulesFilter = () => {
+const SchedulesFilterContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -93,4 +93,14 @@ const SchedulesFilter = () => {
   );
 };
 
-export default SchedulesFilter;
+export default function SchedulesFilter() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-10 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <SchedulesFilterContent />
+    </Suspense>
+  );
+}

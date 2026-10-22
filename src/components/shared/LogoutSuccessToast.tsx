@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
 
-const LogoutSuccessToast = () => {
+const LogoutSuccessToastContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -20,4 +20,14 @@ const LogoutSuccessToast = () => {
   return null;
 };
 
-export default LogoutSuccessToast;
+export default function LogoutSuccessToast() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-10 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <LogoutSuccessToastContent />
+    </Suspense>
+  );
+}

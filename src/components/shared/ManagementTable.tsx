@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { ArrowDown, ArrowUp, ArrowUpDown, Edit, Eye, Loader2, MoreHorizontal, Trash } from "lucide-react";
-import React, { useTransition } from "react";
+import React, { Suspense, useTransition } from "react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -36,7 +37,7 @@ interface ManagementTableProps<T> {
   isRefreshing?: boolean;
 }
 
-function ManagementTable<T>({
+function ManagementTableContent<T>({
   data = [],
   columns = [],
   onView,
@@ -190,4 +191,14 @@ function ManagementTable<T>({
   );
 }
 
-export default ManagementTable;
+export default function ManagementTable(props: ManagementTableProps<any>) {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-10 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <ManagementTableContent {...props} />
+    </Suspense>
+  );
+}

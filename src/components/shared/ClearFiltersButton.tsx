@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { Suspense, useTransition } from "react";
 
 interface ClearFiltersButtonProps {
   /**
@@ -81,7 +81,7 @@ interface ClearFiltersButtonProps {
  *   }}
  * />
  */
-const ClearFiltersButton = ({
+const ClearFiltersButtonContent = ({
   preserveParams = [],
   excludeFromCount = ["page", "limit", "sortBy", "sortOrder"],
   onBeforeClear,
@@ -151,4 +151,14 @@ const ClearFiltersButton = ({
   );
 };
 
-export default ClearFiltersButton;
+export default function ClearFiltersButton() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-10 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <ClearFiltersButtonContent />
+    </Suspense>
+  );
+}

@@ -12,13 +12,13 @@ import {
 import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 interface DoctorSearchFiltersProps {
   specialties: Array<{ id: string; title: string }>;
 }
 
-export default function DoctorSearchFilters({
+function DoctorSearchFiltersContent({
   specialties,
 }: DoctorSearchFiltersProps) {
   const router = useRouter();
@@ -131,5 +131,19 @@ export default function DoctorSearchFilters({
         )}
       </div>
     </div>
+  );
+}
+
+export default function DoctorSearchFilters(
+  props: DoctorSearchFiltersProps
+) {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-12 animate-pulse rounded-md bg-muted" />
+      }
+    >
+      <DoctorSearchFiltersContent {...props} />
+    </Suspense>
   );
 }

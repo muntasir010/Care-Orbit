@@ -15,7 +15,6 @@ export async function updateMyProfile(formData: FormData) {
   try {
     // Create a new FormData with the data property
     const uploadFormData = new FormData();
-    console.log(uploadFormData);
 
     // Get all form fields except the file
     const data: any = {};
@@ -24,7 +23,6 @@ export async function updateMyProfile(formData: FormData) {
         data[key] = value;
       }
     });
-    console.log(data, "data");
 
     // Add the data as JSON string
     uploadFormData.append("data", JSON.stringify(data));
@@ -40,14 +38,11 @@ export async function updateMyProfile(formData: FormData) {
     });
 
     const result = await response.json();
-    console.log(result, "frontend result");
-
     if (result.success) {
       revalidateTag("user-info", { expire: 0 });
     }
     return result;
   } catch (error: any) {
-    console.log(error);
     return {
       success: false,
       message: `${process.env.NODE_ENV === "development" ? error.message : "Something went wrong"}`,
