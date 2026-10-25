@@ -9,6 +9,7 @@ import { parseCookie } from "cookie";
 import {  changePasswordSchema, forgotPasswordSchema, resetPasswordSchema } from "@/zod/auth.validation";
 import { deleteCookie, getCookie, setCookie } from "./tokenHandler";
 import { verifyAccessToken } from "@/lib/jwtHandlers";
+import { unstable_rethrow } from "next/navigation";
 
 // update user profile
 export async function updateMyProfile(formData: FormData) {
@@ -327,18 +328,19 @@ export async function getNewAccessToken() {
       message: "Token refreshed successfully",
     };
   } catch (error: any) {
-    console.error(
-      "GET NEW ACCESS TOKEN ERROR:",
-      error,
-    );
+    // Let Next.js handle framework-level errors such as
+    // Dynamic server usage, redirect, and notFound.
+    unstable_rethrow(error);
+
+    // Handle ordinary token-refresh/network errors normally.
+    console.error("GET NEW ACCESS TOKEN ERROR:", error);
 
     return {
       tokenRefreshed: false,
       success: false,
       message:
-        error?.message ||
-        "Something went wrong",
-    };
+        error?.message || "Something went wrong",
+    }
   }
 } 
 

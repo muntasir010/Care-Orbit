@@ -1,0 +1,828 @@
+
+> care-orbit@0.1.0 build
+> next build
+
+▲ Next.js 16.3.0 (Turbopack)
+- Environments: .env
+✓ Running next.config.ts took 127ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 61s
+  Running TypeScript ...
+  Finished TypeScript in 62s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/24) ...
+  Generating static pages using 7 workers (6/24) 
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at g (src\services\patient\appointments.service.ts:70:44)
+    at e (src\app\(dashboardLayout)\(patientDashboardLayout)\dashboard\my-appointments\page.tsx:6:26)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching appointments: Error: Dynamic server usage: Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at f (src\lib\server-fetch.ts:44:29)
+    at async g (src\services\patient\appointments.service.ts:70:26)
+    at async e (src\app\(dashboardLayout)\(patientDashboardLayout)\dashboard\my-appointments\page.tsx:6:20)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at e (src\app\(dashboardLayout)\(commonProtectedLayout)\my-profile\page.tsx:5:26)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at e (src\services\meta\dashboard.service.ts:8:28)
+    at i (src\app\(dashboardLayout)\admin\dashboard\page.tsx:10:24)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\meta\dashboard.service.ts:16:40)
+    at async i (src\app\(dashboardLayout)\admin\dashboard\page.tsx:10:18)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+getDashboardMetaData error: Error: Dynamic server usage: Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at f (src\lib\server-fetch.ts:44:29)
+    at async e (src\services\meta\dashboard.service.ts:16:22)
+    at async i (src\app\(dashboardLayout)\admin\dashboard\page.tsx:10:18)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at f (src\services\patient\prescription.service.ts:38:40)
+    at e (src\app\(dashboardLayout)\(patientDashboardLayout)\dashboard\my-prescriptions\page.tsx:6:26)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching prescriptions: Error: Dynamic server usage: Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at f (src\lib\server-fetch.ts:44:29)
+    at async f (src\services\patient\prescription.service.ts:38:22)
+    at async e (src\app\(dashboardLayout)\(patientDashboardLayout)\dashboard\my-prescriptions\page.tsx:6:20)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /dashboard/my-prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/admins-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/admins-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/admins-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/admins-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/appointments-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/appointments-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/appointments-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/appointments-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/doctors-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/doctors-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/doctors-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/doctors-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+  Generating static pages using 7 workers (12/24) 
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at e (src\services\meta\dashboard.service.ts:8:28)
+    at h (src\app\(dashboardLayout)\doctor\dashboard\page.tsx:8:24)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\meta\dashboard.service.ts:16:40)
+    at async h (src\app\(dashboardLayout)\doctor\dashboard\page.tsx:8:18)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+getDashboardMetaData error: Error: Dynamic server usage: Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at f (src\lib\server-fetch.ts:44:29)
+    at async e (src\services\meta\dashboard.service.ts:16:22)
+    at async h (src\app\(dashboardLayout)\doctor\dashboard\page.tsx:8:18)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at g (src\services\patient\appointments.service.ts:70:44)
+    at f (src\app\(dashboardLayout)\doctor\dashboard\prescriptions\page.tsx:9:26)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching appointments: Error: Dynamic server usage: Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at f (src\lib\server-fetch.ts:44:29)
+    at async g (src\services\patient\appointments.service.ts:70:26)
+    at async f (src\app\(dashboardLayout)\doctor\dashboard\prescriptions\page.tsx:9:20)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/prescriptions couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/patients-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/patients-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/patients-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/patients-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/schedules-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/schedules-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/schedules-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/schedules-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/specialties-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/specialties-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/specialties-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/specialties-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /admin/dashboard/specialties-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at h (src\services\admin\specialtiesManagement.ts:46:44)
+    at i (src\app\(dashboardLayout)\admin\dashboard\specialties-management\page.tsx:9:24)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /admin/dashboard/specialties-management couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at g (src\services\patient\appointments.service.ts:70:44)
+    at g (src\app\(dashboardLayout)\doctor\dashboard\appointments\page.tsx:8:26)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching appointments: Error: Dynamic server usage: Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at f (src\lib\server-fetch.ts:44:29)
+    at async g (src\services\patient\appointments.service.ts:70:26)
+    at async g (src\app\(dashboardLayout)\doctor\dashboard\appointments\page.tsx:8:20)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/appointments couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/my-schedules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at l (src\components\modules\Dashboard\DashboardSidebar.tsx:9:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/my-schedules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+GET NEW ACCESS TOKEN ERROR: Error: Dynamic server usage: Route /doctor/dashboard/my-schedules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at f (src\services\auth\tokenHandler.ts:16:29)
+    at o (src\services\auth\auth.service.ts:142:13)
+    at f (src\lib\server-fetch.ts:34:11)
+    at Object.get (src\lib\server-fetch.ts:63:5)
+    at e (src\services\auth\getUserInfo.ts:11:40)
+    at j (src\components\modules\Dashboard\DashboardNavbar.tsx:8:27)
+  14 |
+  15 | export const getCookie = async (key: string) => {
+> 16 |   const cookieStore = await cookies();
+     |                             ^
+  17 |   return cookieStore.get(key)?.value || null;
+  18 | };
+  19 | {
+  description: "Route /doctor/dashboard/my-schedules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+  Generating static pages using 7 workers (18/24) 
+✓ Generating static pages using 7 workers (24/24) in 11.4s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /admin/dashboard
+├ ƒ /admin/dashboard/admins-management
+├ ƒ /admin/dashboard/appointments-management
+├ ƒ /admin/dashboard/doctors-management
+├ ƒ /admin/dashboard/patients-management
+├ ƒ /admin/dashboard/schedules-management
+├ ƒ /admin/dashboard/specialties-management
+├ ƒ /change-password
+├ ƒ /consultation
+├ ƒ /consultation/doctor/[id]
+├ ƒ /dashboard
+├ ƒ /dashboard/book-appointment/[doctorId]/[scheduleId]
+├ ƒ /dashboard/my-appointments
+├ ƒ /dashboard/my-appointments/[id]
+├ ƒ /dashboard/my-prescriptions
+├ ƒ /dashboard/my-profile
+├ ƒ /doctor/dashboard
+├ ƒ /doctor/dashboard/appointments
+├ ƒ /doctor/dashboard/my-schedules
+├ ƒ /doctor/dashboard/prescriptions
+├ ƒ /forgot-password
+├ ƒ /login
+├ ƒ /my-profile
+├ ƒ /payment/success
+├ ƒ /register
+└ ƒ /reset-password
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
