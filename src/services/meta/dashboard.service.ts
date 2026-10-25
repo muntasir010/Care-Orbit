@@ -2,6 +2,7 @@
 
 import { serverFetch } from "@/lib/server-fetch";
 import { getUserInfo } from "../auth/getUserInfo";
+import { unstable_rethrow } from "next/navigation";
 
 export async function getDashboardMetaData() {
   try {
@@ -39,6 +40,7 @@ export async function getDashboardMetaData() {
 
     return result;
   } catch (error) {
+    unstable_rethrow(error);
     console.error("getDashboardMetaData error:", error);
     throw error;
   }
