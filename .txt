@@ -1,0 +1,21 @@
+src/
+├── app/(commonLayout)/medicines/
+│   ├── page.tsx
+│   └── [id]/
+│       └── page.tsx
+│
+├── components/modules/
+│   └── medicine/
+│       ├── MedicineList.tsx
+│       ├── MedicineCard.tsx
+│       ├── MedicineFilters.tsx
+│       ├── MedicineSearch.tsx
+│       └── MedicineDetails.tsx
+│
+├── services/
+│   └── medicine/
+│       ├── medicine.service.ts
+│       └── medicine.action.ts
+│
+└── types/
+    └── medicine.interface.ts

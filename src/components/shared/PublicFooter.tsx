@@ -32,12 +32,12 @@ function PublicFooter() {
             <p className="text-sm text-muted-foreground">
               123 Medical Lane<br />
               Health City, HC 12345<br />
-              contact@phdoc.com
+              careorbit@mail.com
             </p>
           </div>
         </div>
         <div className="mt-8 border-t pt-4 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} PH Doc. All Rights Reserved.
+          &copy; {new Date().getFullYear()} CareOrbit. All Rights Reserved.
         </div>
       </div>
     </footer>
