@@ -35,7 +35,7 @@ export default function MedicineCard({ medicine }: Props) {
       }
     });
   };
-console.log("Medicine Card ID:", medicine.id);
+  
   return (
     <div className="group overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md">
       <Link href={`/medicines/${medicine.id.trim()}`}>

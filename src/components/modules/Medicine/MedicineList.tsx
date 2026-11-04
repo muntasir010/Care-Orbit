@@ -20,7 +20,7 @@ export default function MedicineList({ medicines }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {medicines.map((medicine) => (
         <MedicineCard key={medicine.id} medicine={medicine} />
       ))}

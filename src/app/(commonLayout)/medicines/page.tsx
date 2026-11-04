@@ -32,7 +32,7 @@ export default async function MedicinesPage({ searchParams }: Props) {
   ]);
 
   return (
-    <main className="mx-auto max-w-7xl space-y-8 px-4 py-10">
+    <main className="space-y-8 px-6 md:px-12 lg:px-16 py-10">
       <div>
         <h1 className="text-3xl font-bold">
           Medicine Store
