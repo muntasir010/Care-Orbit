@@ -21,7 +21,7 @@ export default async function MedicineDetailsPage({
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-10">
+    <main className="mx-auto max-w-7xl py-10">
       <MedicineDetails medicine={medicine} />
     </main>
   );

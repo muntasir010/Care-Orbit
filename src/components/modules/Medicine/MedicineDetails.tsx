@@ -42,7 +42,7 @@ export default function MedicineDetails({ medicine }: Props) {
             src={medicine.image}
             alt={medicine.name}
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-contain p-8"
           />
         ) : (

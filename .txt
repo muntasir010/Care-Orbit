@@ -1,21 +1,21 @@
 src/
-├── app/(commonLayout)/medicines/
-│   ├── page.tsx
-│   └── [id]/
-│       └── page.tsx
+├── app/
+│   └── (commonLayout)/
+│       └── medicines/
+│           └── cart/
+│               └── page.tsx
 │
-├── components/modules/
-│   └── medicine/
-│       ├── MedicineList.tsx
-│       ├── MedicineCard.tsx
-│       ├── MedicineFilters.tsx
-│       ├── MedicineSearch.tsx
-│       └── MedicineDetails.tsx
+├── components/
+│   └── modules/
+│       └── MedicineOrder/
+│           ├── CartList.tsx
+│           ├── CartItem.tsx
+│           └── CartSummary.tsx
 │
 ├── services/
-│   └── medicine/
-│       ├── medicine.service.ts
-│       └── medicine.action.ts
+│   └── medicine-order/
+│       ├── medicine-order.service.ts
+│       └── medicine-order.action.ts
 │
 └── types/
-    └── medicine.interface.ts
+    └── medicine-order.interface.ts
