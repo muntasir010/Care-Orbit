@@ -9,8 +9,8 @@ import MobileMenu from "./MobileMenu";
 const PublicNavbar = async () => {
   const navItems = [
     { href: "/consultation", label: "Consultation" },
+    { href: "/medicines", label: "Medicine" },
     { href: "#", label: "Health Plans" },
-    { href: "#", label: "Medicine" },
     { href: "#", label: "Diagnostics" },
     { href: "#", label: "NGOs" },
   ];

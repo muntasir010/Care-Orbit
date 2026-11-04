@@ -22,6 +22,7 @@ export default function MedicineCard({ medicine }: Props) {
 
   const handleAddToCart = () => {
     startTransition(async () => {
+      console.log("Medicine Card ID:", medicine.id);
       const result = await addMedicineToCart({
         medicineId: medicine.id,
         quantity,
@@ -34,10 +35,10 @@ export default function MedicineCard({ medicine }: Props) {
       }
     });
   };
-
+console.log("Medicine Card ID:", medicine.id);
   return (
     <div className="group overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md">
-      <Link href={`/medicines/${medicine.id}`}>
+      <Link href={`/medicines/${medicine.id.trim()}`}>
         <div className="relative flex h-48 items-center justify-center bg-gray-50">
           {medicine.image ? (
             <Image
@@ -61,7 +62,7 @@ export default function MedicineCard({ medicine }: Props) {
             {medicine.category?.name || medicine.dosageForm}
           </p>
 
-          <Link href={`/medicines/${medicine.id}`}>
+          <Link href={`/medicines/${medicine.id.trim()}`}>
             <h3 className="mt-1 line-clamp-1 font-semibold hover:text-primary">
               {medicine.name}
             </h3>

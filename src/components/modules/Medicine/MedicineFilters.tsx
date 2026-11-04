@@ -34,7 +34,7 @@ export default function MedicineFilters({ categories }: Props) {
         onChange={(event) =>
           handleCategoryChange(event.target.value)
         }
-        className="w-full rounded-lg border bg-white px-3 py-3"
+        className="w-full rounded-lg border px-3 py-3"
       >
         <option value="">All Categories</option>
 
