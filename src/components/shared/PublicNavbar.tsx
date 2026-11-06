@@ -5,6 +5,7 @@ import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 import AISearchDialog from "./AISearchDialog";
 import NavbarAuthButtons from "./NavbarAuthButton";
 import MobileMenu from "./MobileMenu";
+import { ShoppingCart } from "lucide-react";
 
 const PublicNavbar = async () => {
   const navItems = [
@@ -41,6 +42,13 @@ const PublicNavbar = async () => {
           ))}
         </nav>
         <div className="hidden md:flex items-center space-x-2">
+          <Link
+            href="/medicines/cart"
+            title="Cart"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <ShoppingCart />
+          </Link>
           <AISearchDialog />
           <NavbarAuthButtons
             initialHasToken={!!accessToken}
