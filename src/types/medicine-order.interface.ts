@@ -23,3 +23,40 @@ export interface CartApiResponse {
   message: string;
   data: Cart;
 }
+
+export type MedicinePaymentMethod = "ONLINE" | "COD";
+
+export interface CheckoutCartMedicine {
+  id: string;
+  name: string;
+  image?: string | null;
+  price: number;
+  discountPercent: number;
+  stock: number;
+}
+
+export interface CheckoutCartItem {
+  id: string;
+  medicineId: string;
+  quantity: number;
+  medicine: CheckoutCartMedicine;
+}
+
+export interface CheckoutCart {
+  id: string;
+  items: CheckoutCartItem[];
+  subtotal: number;
+  totalItems: number;
+}
+
+export interface CreateMedicineOrderPayload {
+  items: {
+    medicineId: string;
+    quantity: number;
+  }[];
+  shippingName: string;
+  shippingPhone: string;
+  shippingAddress: string;
+  note?: string;
+  paymentMethod: MedicinePaymentMethod;
+}
