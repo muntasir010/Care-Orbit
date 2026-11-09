@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { serverFetch } from "@/lib/server-fetch";
+import { CreateMedicineOrderPayload } from "@/types/medicine-order.interface";
 
 const CART_PATH = "/medicines/cart";
 
@@ -25,8 +26,24 @@ const handleResponse = async (response: Response) => {
   };
 };
 
-export const createMedicineOrder = async (formData: FormData) => {
+export const createMedicineOrder = async (
+  payload: CreateMedicineOrderPayload,
+) => {
   try {
+    const formData = new FormData();
+
+    formData.append("shippingName", payload.shippingName);
+    formData.append("shippingPhone", payload.shippingPhone);
+    formData.append("shippingAddress", payload.shippingAddress);
+    formData.append("paymentMethod", payload.paymentMethod);
+
+    // Multipart form-data sends this as a string.
+    formData.append("items", JSON.stringify(payload.items));
+
+    if (payload.prescription) {
+      formData.append("prescription", payload.prescription);
+    }
+
     const response = await serverFetch.post("/medicine-order", {
       body: formData,
     });
@@ -36,81 +53,67 @@ export const createMedicineOrder = async (formData: FormData) => {
     if (!response.ok || !result.success) {
       return {
         success: false,
-        message: result.message || "Failed to create order",
-      };
-    }
-
-    const order = result.data;
-
-    if (!order?.id) {
-      return {
-        success: false,
-        message: "Order created but order ID was not returned",
-      };
-    }
-
-    // COD: order creation is complete.
-    if (formData.get("paymentMethod") === "COD") {
-      return {
-        success: true,
-        message: "Order placed successfully",
-        orderId: order.id,
-        paymentMethod: "COD",
-      };
-    }
-
-    // ONLINE: initiate Stripe payment.
-    const paymentResponse = await serverFetch.post(
-      `/medicine-order/${order.id}/initiate-payment`,
-    );
-
-    const paymentResult = await paymentResponse.json();
-
-    if (
-      !paymentResponse.ok ||
-      !paymentResult.success ||
-      !paymentResult.data?.paymentUrl
-    ) {
-      return {
-        success: false,
-        message:
-          paymentResult.message ||
-          "Order created, but payment initialization failed",
-        orderId: order.id,
+        message: result.message || "Order creation failed",
+        data: null,
       };
     }
 
     return {
       success: true,
-      message: "Redirecting to payment...",
-      orderId: order.id,
-      paymentMethod: "ONLINE",
-      paymentUrl: paymentResult.data.paymentUrl,
+      message: result.message,
+      data: result.data,
     };
   } catch (error) {
     console.error("Create medicine order error:", error);
 
     return {
       success: false,
-      message: "Something went wrong while placing your order",
+      message: "Something went wrong while creating your order",
+      data: null,
     };
   }
 };
 
-export const updateCartItem = async (
-  itemId: string,
-  quantity: number,
-) => {
+export const initiateMedicineOrderPayment = async (orderId: string) => {
   try {
-    const response = await serverFetch.patch(
-      `/cart/items/${itemId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ quantity }),
-      },
+    const response = await serverFetch.post(
+      `/medicine-order/${orderId}/initiate-payment`,
     );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Payment initiation failed",
+        paymentUrl: null,
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message,
+      paymentUrl: result.data?.paymentUrl,
+    };
+  } catch (error) {
+    console.error("Payment initiation error:", error);
+
+    return {
+      success: false,
+      message: "Unable to initiate payment",
+      paymentUrl: null,
+    };
+  }
+};
+
+export const updateCartItem = async (itemId: string, quantity: number) => {
+  try {
+    const response = await serverFetch.patch(`/cart/items/${itemId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ quantity }),
+    });
 
     return await handleResponse(response);
   } catch (error) {
@@ -126,9 +129,7 @@ export const updateCartItem = async (
 
 export const removeCartItem = async (itemId: string) => {
   try {
-    const response = await serverFetch.delete(
-      `/cart/items/${itemId}`,
-    );
+    const response = await serverFetch.delete(`/cart/items/${itemId}`);
 
     return await handleResponse(response);
   } catch (error) {
@@ -157,4 +158,3 @@ export const clearMyCart = async () => {
     };
   }
 };
-

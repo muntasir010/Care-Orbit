@@ -59,6 +59,7 @@ export interface CreateMedicineOrderPayload {
   shippingAddress: string;
   note?: string;
   paymentMethod: MedicinePaymentMethod;
+  prescription?: File | null;
 }
 
 export interface CheckoutPayload {
