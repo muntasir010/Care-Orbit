@@ -13,7 +13,7 @@ import {
   createMedicineOrder,
   initiateMedicineOrderPayment,
 } from "@/services/medicine-order/medicine-order.action";
-import CheckoutSummary from "./CheckOutSummary";
+import CheckoutSummary from "./CheckoutSummary";
 
 
 interface Props {
