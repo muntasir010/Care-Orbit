@@ -60,3 +60,32 @@ export interface CreateMedicineOrderPayload {
   note?: string;
   paymentMethod: MedicinePaymentMethod;
 }
+
+export interface CheckoutPayload {
+  shippingName: string;
+  shippingPhone: string;
+  shippingAddress: string;
+  paymentMethod: MedicinePaymentMethod;
+  prescription?: File | null;
+}
+
+export interface MedicineOrderItemPayload {
+  medicineId: string;
+  quantity: number;
+}
+
+export interface MedicineOrder {
+  id: string;
+  orderNumber?: string;
+  status: string;
+  paymentStatus: string;
+  paymentMethod: MedicinePaymentMethod;
+  subtotal: number;
+  discount?: number;
+  deliveryFee?: number;
+  totalAmount: number;
+  shippingName: string;
+  shippingPhone: string;
+  shippingAddress: string;
+  createdAt: string;
+}

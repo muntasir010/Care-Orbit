@@ -2,15 +2,17 @@ src/
 ├── app/
 │   └── (commonLayout)/
 │       └── medicines/
-│           └── cart/
+│           ├── checkout/
+│           │   └── page.tsx
+│           └── order-confirmation/
 │               └── page.tsx
 │
 ├── components/
 │   └── modules/
-│       └── MedicineOrder/
-│           ├── CartList.tsx
-│           ├── CartItem.tsx
-│           └── CartSummary.tsx
+│       └── medicine-order/
+│           ├── CheckoutForm.tsx
+│           ├── CheckoutSummary.tsx
+│           └── OrderConfirmation.tsx
 │
 ├── services/
 │   └── medicine-order/
