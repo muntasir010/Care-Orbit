@@ -15,7 +15,6 @@ import {
 } from "@/services/medicine-order/medicine-order.action";
 import CheckoutSummary from "./CheckoutSummary";
 
-
 interface Props {
   cart: Cart;
 }
@@ -27,16 +26,10 @@ export default function CheckoutForm({ cart }: Props) {
   const [shippingName, setShippingName] = useState("");
   const [shippingPhone, setShippingPhone] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
+  const shippingCity = shippingAddress.trim().split(",").pop()?.trim() || "";
 
   const [paymentMethod, setPaymentMethod] =
     useState<MedicinePaymentMethod>("ONLINE");
-
-  const [prescription, setPrescription] =
-    useState<File | null>(null);
-
-  const needsPrescription = cart.items.some(
-    (item) => item.medicine.requiresPrescription,
-  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,18 +48,13 @@ export default function CheckoutForm({ cart }: Props) {
       return;
     }
 
-    if (needsPrescription && !prescription) {
-      toast.error("Please upload your prescription");
-      return;
-    }
-
     startTransition(async () => {
       const result = await createMedicineOrder({
         shippingName: shippingName.trim(),
         shippingPhone: shippingPhone.trim(),
         shippingAddress: shippingAddress.trim(),
+        shippingCity,
         paymentMethod,
-        prescription,
         items: cart.items.map((item) => ({
           medicineId: item.medicineId,
           quantity: item.quantity,
@@ -81,23 +69,16 @@ export default function CheckoutForm({ cart }: Props) {
       const orderId = result.data.id as string;
 
       if (paymentMethod === "ONLINE") {
-        const paymentResult =
-          await initiateMedicineOrderPayment(orderId);
+        const paymentResult = await initiateMedicineOrderPayment(orderId);
 
-        if (
-          !paymentResult.success ||
-          !paymentResult.paymentUrl
-        ) {
+        if (!paymentResult.success || !paymentResult.paymentUrl) {
           toast.error(
-            paymentResult.message ||
-              "Could not start online payment",
+            paymentResult.message || "Could not start online payment",
           );
 
           // The order may already exist. Keep its ID so the
           // customer can return to it and retry payment.
-          router.push(
-            `/medicines/order-confirmation?orderId=${orderId}`,
-          );
+          router.push(`/medicines/order-confirmation?orderId=${orderId}`);
           return;
         }
 
@@ -107,9 +88,7 @@ export default function CheckoutForm({ cart }: Props) {
 
       toast.success("Your order has been placed successfully");
 
-      router.push(
-        `/medicines/order-confirmation?orderId=${orderId}`,
-      );
+      router.push(`/medicines/order-confirmation?orderId=${orderId}`);
       router.refresh();
     });
   };
@@ -119,9 +98,7 @@ export default function CheckoutForm({ cart }: Props) {
       <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
         <div className="space-y-6">
           <section className="rounded-xl border bg-white p-5">
-            <h2 className="mb-5 text-lg font-semibold">
-              Shipping Information
-            </h2>
+            <h2 className="mb-5 text-lg font-semibold">Shipping Information</h2>
 
             <div className="space-y-4">
               <div>
@@ -158,6 +135,8 @@ export default function CheckoutForm({ cart }: Props) {
                   onChange={(e) => setShippingPhone(e.target.value)}
                   placeholder="01XXXXXXXXX"
                   required
+                  pattern="^(?:\+?88)?01[3-9]\d{8}$"
+                  title="Enter a valid Bangladeshi mobile number"
                   className="w-full rounded-lg border px-4 py-3 outline-none focus:border-primary"
                 />
               </div>
@@ -184,37 +163,7 @@ export default function CheckoutForm({ cart }: Props) {
           </section>
 
           <section className="rounded-xl border bg-white p-5">
-            <h2 className="mb-3 text-lg font-semibold">
-              Prescription Upload
-            </h2>
-
-            <p className="mb-4 text-sm text-gray-500">
-              {needsPrescription
-                ? "Your cart contains medicine that requires a prescription. Upload a valid prescription."
-                : "Prescription is optional for the medicines in your cart."}
-            </p>
-
-            <input
-              type="file"
-              accept="image/*,.pdf"
-              onChange={(e) =>
-                setPrescription(e.target.files?.[0] || null)
-              }
-              required={needsPrescription}
-              className="block w-full rounded-lg border p-3 text-sm"
-            />
-
-            {prescription && (
-              <p className="mt-2 text-sm text-green-600">
-                Selected: {prescription.name}
-              </p>
-            )}
-          </section>
-
-          <section className="rounded-xl border bg-white p-5">
-            <h2 className="mb-4 text-lg font-semibold">
-              Payment Method
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold">Payment Method</h2>
 
             <div className="space-y-3">
               <label className="flex cursor-pointer items-start gap-3 rounded-lg border p-4">
@@ -228,9 +177,7 @@ export default function CheckoutForm({ cart }: Props) {
                 />
 
                 <div>
-                  <p className="font-medium">
-                    Online Payment
-                  </p>
+                  <p className="font-medium">Online Payment</p>
                   <p className="text-sm text-gray-500">
                     Pay securely through Stripe Checkout.
                   </p>
@@ -248,9 +195,7 @@ export default function CheckoutForm({ cart }: Props) {
                 />
 
                 <div>
-                  <p className="font-medium">
-                    Cash on Delivery
-                  </p>
+                  <p className="font-medium">Cash on Delivery</p>
                   <p className="text-sm text-gray-500">
                     Pay when your medicine is delivered.
                   </p>
@@ -261,7 +206,7 @@ export default function CheckoutForm({ cart }: Props) {
         </div>
 
         <aside className="space-y-5">
-          <CheckoutSummary cart={cart} />
+          <CheckoutSummary cart={cart} shippingCity={shippingCity} />
 
           <button
             type="submit"
@@ -276,8 +221,7 @@ export default function CheckoutForm({ cart }: Props) {
           </button>
 
           <p className="text-center text-xs text-gray-500">
-            Your final order amount will be calculated securely by
-            the server.
+            Your final order amount will be calculated securely by the server.
           </p>
         </aside>
       </div>

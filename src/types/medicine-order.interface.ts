@@ -50,16 +50,12 @@ export interface CheckoutCart {
 }
 
 export interface CreateMedicineOrderPayload {
-  items: {
-    medicineId: string;
-    quantity: number;
-  }[];
   shippingName: string;
   shippingPhone: string;
   shippingAddress: string;
-  note?: string;
+  shippingCity: string;
   paymentMethod: MedicinePaymentMethod;
-  prescription?: File | null;
+  items: MedicineOrderItemPayload[];
 }
 
 export interface CheckoutPayload {
@@ -67,7 +63,6 @@ export interface CheckoutPayload {
   shippingPhone: string;
   shippingAddress: string;
   paymentMethod: MedicinePaymentMethod;
-  prescription?: File | null;
 }
 
 export interface MedicineOrderItemPayload {
@@ -88,5 +83,6 @@ export interface MedicineOrder {
   shippingName: string;
   shippingPhone: string;
   shippingAddress: string;
+  shippingCity: string;
   createdAt: string;
 }

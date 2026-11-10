@@ -17,7 +17,6 @@ export interface Medicine {
   price: number;
   discountPercent: number;
   stock: number;
-  requiresPrescription: boolean;
   image?: string | null;
   isActive: boolean;
   categoryId: string;

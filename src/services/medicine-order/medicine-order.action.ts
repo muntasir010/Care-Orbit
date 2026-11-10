@@ -30,22 +30,11 @@ export const createMedicineOrder = async (
   payload: CreateMedicineOrderPayload,
 ) => {
   try {
-    const formData = new FormData();
-
-    formData.append("shippingName", payload.shippingName);
-    formData.append("shippingPhone", payload.shippingPhone);
-    formData.append("shippingAddress", payload.shippingAddress);
-    formData.append("paymentMethod", payload.paymentMethod);
-
-    // Multipart form-data sends this as a string.
-    formData.append("items", JSON.stringify(payload.items));
-
-    if (payload.prescription) {
-      formData.append("prescription", payload.prescription);
-    }
-
     const response = await serverFetch.post("/medicine-order", {
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
     const result = await response.json();
@@ -74,7 +63,10 @@ export const createMedicineOrder = async (
   }
 };
 
-export const initiateMedicineOrderPayment = async (orderId: string) => {
+// Keep your existing initiateMedicineOrderPayment function below.
+export const initiateMedicineOrderPayment = async (
+  orderId: string,
+) => {
   try {
     const response = await serverFetch.post(
       `/medicine-order/${orderId}/initiate-payment`,

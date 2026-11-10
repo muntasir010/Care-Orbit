@@ -96,12 +96,6 @@ export default function MedicineCard({ medicine }: Props) {
           )}
         </div>
 
-        {medicine.requiresPrescription && (
-          <p className="text-xs font-medium text-orange-600">
-            Prescription required
-          </p>
-        )}
-
         <p className="text-xs text-gray-500">
           {medicine.stock > 0
             ? `${medicine.stock} available`

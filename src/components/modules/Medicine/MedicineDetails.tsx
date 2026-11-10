@@ -91,12 +91,6 @@ export default function MedicineDetails({ medicine }: Props) {
           </p>
         )}
 
-        {medicine.requiresPrescription && (
-          <p className="rounded-lg bg-orange-50 p-3 text-sm text-orange-700">
-            A valid prescription is required for this medicine.
-          </p>
-        )}
-
         <div className="flex items-center gap-3">
           <label htmlFor="quantity" className="text-sm font-medium">
             Quantity
