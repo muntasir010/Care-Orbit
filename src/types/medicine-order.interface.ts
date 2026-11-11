@@ -53,7 +53,7 @@ export interface CreateMedicineOrderPayload {
   shippingName: string;
   shippingPhone: string;
   shippingAddress: string;
-  shippingCity: string;
+  shippingDistrict: string;
   paymentMethod: MedicinePaymentMethod;
   items: MedicineOrderItemPayload[];
 }
@@ -82,7 +82,7 @@ export interface MedicineOrder {
   totalAmount: number;
   shippingName: string;
   shippingPhone: string;
+  shippingDistrict: string;
   shippingAddress: string;
-  shippingCity: string;
   createdAt: string;
 }

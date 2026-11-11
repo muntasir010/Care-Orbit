@@ -14,6 +14,7 @@ import {
   initiateMedicineOrderPayment,
 } from "@/services/medicine-order/medicine-order.action";
 import CheckoutSummary from "./CheckoutSummary";
+import { BANGLADESH_DISTRICTS } from "@/lib/medicine-delivery";
 
 interface Props {
   cart: Cart;
@@ -25,8 +26,8 @@ export default function CheckoutForm({ cart }: Props) {
 
   const [shippingName, setShippingName] = useState("");
   const [shippingPhone, setShippingPhone] = useState("");
+  const [district, setDistrict] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
-  const shippingCity = shippingAddress.trim().split(",").pop()?.trim() || "";
 
   const [paymentMethod, setPaymentMethod] =
     useState<MedicinePaymentMethod>("ONLINE");
@@ -53,7 +54,7 @@ export default function CheckoutForm({ cart }: Props) {
         shippingName: shippingName.trim(),
         shippingPhone: shippingPhone.trim(),
         shippingAddress: shippingAddress.trim(),
-        shippingCity,
+        shippingDistrict: district,
         paymentMethod,
         items: cart.items.map((item) => ({
           medicineId: item.medicineId,
@@ -141,6 +142,31 @@ export default function CheckoutForm({ cart }: Props) {
                 />
               </div>
 
+              <div className="space-y-2">
+                <label
+                  htmlFor="shippingDistrict"
+                  className="text-sm font-medium"
+                >
+                  Select District
+                </label>
+
+                <select
+                  id="shippingDistrict"
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
+                  required
+                  className="w-full rounded-lg border bg-white px-3 py-2.5 outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="">Choose your district</option>
+
+                  {BANGLADESH_DISTRICTS.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div>
                 <label
                   htmlFor="shippingAddress"
@@ -206,7 +232,7 @@ export default function CheckoutForm({ cart }: Props) {
         </div>
 
         <aside className="space-y-5">
-          <CheckoutSummary cart={cart} shippingCity={shippingCity} />
+          <CheckoutSummary cart={cart} district={district} />
 
           <button
             type="submit"

@@ -1,27 +1,14 @@
 import type { Cart } from "@/types/medicine-order.interface";
+import { getMedicineDeliveryFee } from "@/lib/medicine-delivery";
 
 interface Props {
   cart: Cart;
-  shippingCity: string;
+  district: string;
 }
-
-const getDeliveryFee = (city: string): number | null => {
-  const normalizedCity = city.trim().toLowerCase();
-
-  if (!normalizedCity) {
-    return null;
-  }
-
-  if (["feni", "dhaka"].includes(normalizedCity)) {
-    return 80;
-  }
-
-  return 120;
-};
 
 export default function CheckoutSummary({
   cart,
-  shippingCity,
+  district,
 }: Props) {
   const subtotal = cart.items.reduce((total, item) => {
     const price =
@@ -31,10 +18,9 @@ export default function CheckoutSummary({
     return total + price * item.quantity;
   }, 0);
 
-  const deliveryFee = getDeliveryFee(shippingCity);
+  const deliveryFee = getMedicineDeliveryFee(district);
 
-  const totalAmount =
-    deliveryFee !== null ? subtotal + deliveryFee : null;
+  const totalAmount = subtotal + deliveryFee;
 
   return (
     <div className="rounded-xl border bg-white p-5">
@@ -81,48 +67,38 @@ export default function CheckoutSummary({
         </span>
       </div>
 
-      <div className="mt-3 flex justify-between">
-        <span className="text-gray-600">Delivery fee</span>
+      <div className="mt-3 flex justify-between gap-3">
+        <div>
+          <p className="text-gray-600">Delivery fee</p>
 
-        {deliveryFee !== null ? (
-          <span className="font-semibold">
-            ৳{deliveryFee.toFixed(2)}
-          </span>
-        ) : (
-          <span className="text-sm text-gray-500">
-            Select your city
-          </span>
-        )}
-      </div>
-
-      {deliveryFee !== null && (
-        <div className="mt-3 flex justify-between text-sm">
-          <span className="text-gray-600">
-            Delivery location
-          </span>
-
-          <span className="font-medium capitalize">
-            {shippingCity}
-          </span>
+          {district && (
+            <p className="text-xs text-gray-500">
+              {district} district
+            </p>
+          )}
         </div>
-      )}
+
+        <span className="font-semibold">
+          {district
+            ? `৳${deliveryFee.toFixed(2)}`
+            : "Select district"}
+        </span>
+      </div>
 
       <div className="my-5 border-t" />
 
       <div className="flex justify-between text-base">
         <span className="font-semibold">Total</span>
 
-        <span className="font-bold text-primary">
-          {totalAmount !== null
-            ? `৳${totalAmount.toFixed(2)}`
-            : "Select city"}
+        <span className="font-bold">
+          ৳{totalAmount.toFixed(2)}
         </span>
       </div>
 
       <p className="mt-4 text-xs text-gray-500">
-        Delivery charge: ৳80 in Feni and Dhaka, ৳120 in
-        all other cities. Final amount is calculated and
-        verified by the server.
+        {district
+          ? `Delivery charge for ${district} is ৳${deliveryFee}. Final amount is confirmed by the server.`
+          : "Select your district to calculate the delivery charge."}
       </p>
     </div>
   );
