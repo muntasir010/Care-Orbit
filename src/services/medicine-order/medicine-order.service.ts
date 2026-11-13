@@ -43,3 +43,13 @@ export const getMedicineOrderById = async (
     return null;
   }
 };
+
+export const syncMedicineOrderPayment = async (id: string): Promise<MedicineOrder | null> => {
+  try {
+    const response = await serverFetch.post(`/medicine-order/${id}/sync-payment`);
+    const result: ApiResponse<MedicineOrder> = await response.json();
+    return response.ok && result.success ? result.data : null;
+  } catch {
+    return null;
+  }
+};

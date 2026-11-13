@@ -3,10 +3,12 @@ import type { MedicineOrder } from "@/types/medicine-order.interface";
 
 interface Props {
   order: MedicineOrder;
+  payment?: string;
 }
 
-export default function OrderConfirmation({ order }: Props) {
+export default function OrderConfirmation({ order, payment }: Props) {
   const isPaid = order.paymentStatus === "PAID";
+  const cancelled = payment === "cancelled" && !isPaid;
 
   return (
     <div className="mx-auto max-w-2xl rounded-xl border bg-white p-8 text-center shadow-sm">
@@ -14,9 +16,7 @@ export default function OrderConfirmation({ order }: Props) {
         ✓
       </div>
 
-      <h1 className="text-2xl font-bold">
-        Order placed successfully!
-      </h1>
+      <h1 className="text-2xl font-bold">Order placed successfully!</h1>
 
       <p className="mt-2 text-gray-500">
         Thank you for ordering from Care Orbit.
@@ -37,16 +37,12 @@ export default function OrderConfirmation({ order }: Props) {
 
         <div className="mt-4 flex justify-between">
           <span className="text-gray-500">Payment Method</span>
-          <span className="font-medium">
-            {order.paymentMethod}
-          </span>
+          <span className="font-medium">{order.paymentMethod}</span>
         </div>
 
         <div className="mt-4 flex justify-between">
           <span className="text-gray-500">Payment Status</span>
-          <span className="font-medium">
-            {order.paymentStatus}
-          </span>
+          <span className="font-medium">{order.paymentStatus}</span>
         </div>
 
         <div className="mt-4 flex justify-between">
@@ -57,10 +53,17 @@ export default function OrderConfirmation({ order }: Props) {
         </div>
       </div>
 
-      {!isPaid && order.paymentMethod === "ONLINE" && (
+      {/* {!isPaid && order.paymentMethod === "ONLINE" && (
         <p className="mb-5 text-sm text-orange-600">
           Your payment is not confirmed yet. You can check your
           order status before considering the payment complete.
+        </p>
+      )} */}
+      {order.paymentMethod === "ONLINE" && !isPaid && (
+        <p className="mb-5 text-sm text-orange-600">
+          {cancelled
+            ? "Payment was cancelled. You can retry from My Orders."
+            : "We are still confirming your payment. Please refresh in a few seconds."}
         </p>
       )}
 
