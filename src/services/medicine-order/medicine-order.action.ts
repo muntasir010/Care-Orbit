@@ -64,9 +64,7 @@ export const createMedicineOrder = async (
 };
 
 // Keep your existing initiateMedicineOrderPayment function below.
-export const initiateMedicineOrderPayment = async (
-  orderId: string,
-) => {
+export const initiateMedicineOrderPayment = async (orderId: string) => {
   try {
     const response = await serverFetch.post(
       `/medicine-order/${orderId}/initiate-payment`,
@@ -147,6 +145,88 @@ export const clearMyCart = async () => {
       success: false,
       message: "Failed to clear cart",
       data: null,
+    };
+  }
+};
+
+export const cancelMedicineOrder = async (orderId: string) => {
+  try {
+    const response = await serverFetch.patch(
+      `/medicine-order/${orderId}/cancel`,
+      {
+        method: "PATCH",
+        cache: "no-store",
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Unable to cancel order",
+      };
+    }
+
+    revalidatePath("/dashboard/medicine-orders");
+    revalidatePath(`/dashboard/medicine-orders/${orderId}`);
+    revalidatePath("/admin/medicine-orders");
+
+    return {
+      success: true,
+      message: result.message || "Order cancelled successfully",
+    };
+  } catch (error) {
+    console.error("cancelMedicineOrder error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong while cancelling the order",
+    };
+  }
+};
+
+export const updateMedicineOrderStatus = async (
+  orderId: string,
+  status: string,
+) => {
+  try {
+    const response = await serverFetch.patch(
+      `/medicine-order/${orderId}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+        cache: "no-store",
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Unable to update order status",
+      };
+    }
+
+    revalidatePath("/admin/medicine-orders");
+    revalidatePath(`/admin/medicine-orders/${orderId}`);
+    revalidatePath("/dashboard/medicine-orders");
+    revalidatePath(`/dashboard/medicine-orders/${orderId}`);
+
+    return {
+      success: true,
+      message: result.message || "Order status updated successfully",
+    };
+  } catch (error) {
+    console.error("updateMedicineOrderStatus error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong while updating the order",
     };
   }
 };
