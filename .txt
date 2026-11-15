@@ -1,23 +1,24 @@
+
 src/
 ├── app/
-│   └── (commonLayout)/
-│       └── medicines/
-│           ├── checkout/
-│           │   └── page.tsx
-│           └── order-confirmation/
-│               └── page.tsx
-│
+│   ├── (dashboardLayout)/
+│   │   └── dashboard/
+│   │       └── medicine-orders/
+│   │           ├── page.tsx
+│   │           └── [id]/page.tsx
+│   └── (dashboardLayout)/
+│       └── admin/
+│           └── medicine-orders/
+│               ├── page.tsx
+│               └── [id]/page.tsx
 ├── components/
 │   └── modules/
 │       └── medicine-order/
-│           ├── CheckoutForm.tsx
-│           ├── CheckoutSummary.tsx
-│           └── OrderConfirmation.tsx
-│
-├── services/
-│   └── medicine-order/
-│       ├── medicine-order.service.ts
-│       └── medicine-order.action.ts
-│
-└── types/
-    └── medicine-order.interface.ts
+│           ├── MyMedicineOrders.tsx
+│           ├── MedicineOrderDetails.tsx
+│           ├── AdminMedicineOrders.tsx
+│           └── AdminMedicineOrderDetails.tsx
+└── services/
+    └── medicine-order/
+        ├── medicine-order.service.ts
+        └── medicine-order.action.ts
