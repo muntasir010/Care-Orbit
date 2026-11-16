@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { MedicineOrder } from "@/types/medicine-order.interface";
 import { cancelMedicineOrder } from "@/services/medicine-order/medicine-order.action";
+import { format } from "date-fns";
 
 interface Props {
   orders: MedicineOrder[];
@@ -67,11 +68,9 @@ export default function MyMedicineOrders({ orders }: Props) {
           <div className="flex flex-col justify-between gap-3 sm:flex-row">
             <div>
               <p className="text-sm text-gray-500">Order Number</p>
-              <h3 className="font-semibold">
-                {order.orderNumber}
-              </h3>
+              <h3 className="font-semibold">{order.orderNumber}</h3>
               <p className="mt-1 text-xs text-gray-500">
-                {new Date(order.createdAt).toLocaleDateString()}
+                {format(new Date(order.createdAt), "EEEE, MMMM d, yyyy")}
               </p>
             </div>
 
@@ -95,12 +94,10 @@ export default function MyMedicineOrders({ orders }: Props) {
           <div className="my-4 border-t" />
 
           <div className="grid gap-3 text-sm sm:grid-cols-3">
-            <div>
+            {/* <div>
               <p className="text-gray-500">Items</p>
-              <p className="font-medium">
-                {order.id?.length ?? 0} medicines
-              </p>
-            </div>
+              <p className="font-medium">{order.?.length ?? 0} medicines</p>
+            </div> */}
 
             <div>
               <p className="text-gray-500">Payment Method</p>
@@ -130,9 +127,7 @@ export default function MyMedicineOrders({ orders }: Props) {
                 onClick={() => handleCancel(order.id)}
                 className="rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 disabled:opacity-50"
               >
-                {cancellingId === order.id
-                  ? "Cancelling..."
-                  : "Cancel Order"}
+                {cancellingId === order.id ? "Cancelling..." : "Cancel Order"}
               </button>
             )}
           </div>

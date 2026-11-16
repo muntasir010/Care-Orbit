@@ -53,12 +53,6 @@ export default function OrderConfirmation({ order, payment }: Props) {
         </div>
       </div>
 
-      {/* {!isPaid && order.paymentMethod === "ONLINE" && (
-        <p className="mb-5 text-sm text-orange-600">
-          Your payment is not confirmed yet. You can check your
-          order status before considering the payment complete.
-        </p>
-      )} */}
       {order.paymentMethod === "ONLINE" && !isPaid && (
         <p className="mb-5 text-sm text-orange-600">
           {cancelled
@@ -75,7 +69,7 @@ export default function OrderConfirmation({ order, payment }: Props) {
 
       <div className="flex flex-col justify-center gap-3 sm:flex-row">
         <Link
-          href="/medicines/orders"
+          href="/dashboard/medicine-orders"
           className="rounded-lg bg-primary px-6 py-3 font-medium text-white"
         >
           View My Orders
