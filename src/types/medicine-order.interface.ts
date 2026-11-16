@@ -70,19 +70,73 @@ export interface MedicineOrderItemPayload {
   quantity: number;
 }
 
+export interface MedicineOrderItem {
+  id: string;
+  orderId: string;
+  medicineId: string;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  lineTotal: number;
+
+  medicine?: {
+    id: string;
+    name: string;
+    image?: string | null;
+    strength?: string | null;
+    dosageForm?: string;
+  };
+}
+
 export interface MedicineOrder {
   id: string;
-  orderNumber?: string;
+  orderNumber: string;
+
+  patientId?: string;
+
   status: string;
   paymentStatus: string;
   paymentMethod: MedicinePaymentMethod;
+
   subtotal: number;
-  discount?: number;
-  deliveryFee?: number;
+  discount: number;
+  deliveryFee: number;
   totalAmount: number;
+
   shippingName: string;
   shippingPhone: string;
   shippingDistrict: string;
   shippingAddress: string;
+
+  note?: string | null;
+  transactionId?: string | null;
+
   createdAt: string;
+  updatedAt?: string;
+
+  items: MedicineOrderItem[];
+
+  patient?: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
+
+// export interface MedicineOrder {
+//   id: string;
+//   orderNumber?: string;
+//   status: string;
+//   paymentStatus: string;
+//   paymentMethod: MedicinePaymentMethod;
+//   subtotal: number;
+//   discount?: number;
+//   deliveryFee?: number;
+//   totalAmount: number;
+//   shippingName: string;
+//   shippingPhone: string;
+//   shippingDistrict: string;
+//   shippingAddress: string;
+//   items: MedicineOrderItem[];
+//   createdAt: string;
+// }

@@ -109,11 +109,11 @@ export const getAdminMedicineOrders = async (
 };
 
 export const getMedicineOrderDetails = async (
-  orderId: string,
+  id: string,
 ) => {
   try {
     const response = await serverFetch.get(
-      `/medicine-order/${orderId}`,
+      `/medicine-order/${id}`,
       {
         method: "GET",
         cache: "no-store",

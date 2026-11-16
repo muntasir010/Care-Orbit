@@ -94,10 +94,12 @@ export default function MyMedicineOrders({ orders }: Props) {
           <div className="my-4 border-t" />
 
           <div className="grid gap-3 text-sm sm:grid-cols-3">
-            {/* <div>
+            <div>
               <p className="text-gray-500">Items</p>
-              <p className="font-medium">{order.?.length ?? 0} medicines</p>
-            </div> */}
+              <p className="font-medium">
+                {order.items?.length ?? 0} medicines
+              </p>
+            </div>
 
             <div>
               <p className="text-gray-500">Payment Method</p>
