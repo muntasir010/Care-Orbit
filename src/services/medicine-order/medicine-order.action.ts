@@ -230,3 +230,39 @@ export const updateMedicineOrderStatus = async (
     };
   }
 };
+
+export const markMedicineOrderCODAsPaid = async (orderId: string) => {
+  try {
+    const response = await serverFetch.patch(
+      `/medicine-order/${orderId}/mark-cod-paid`,
+      {
+        method: "PATCH",
+        cache: "no-store",
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Unable to confirm COD payment",
+      };
+    }
+
+    revalidatePath("/admin/medicine-orders");
+    revalidatePath(`/admin/medicine-orders/${orderId}`);
+
+    return {
+      success: true,
+      message: result.message || "COD payment confirmed successfully",
+    };
+  } catch (error) {
+    console.error("markMedicineOrderCODAsPaid error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong while confirming COD payment",
+    };
+  }
+};

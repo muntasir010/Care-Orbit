@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { MedicineOrder } from "@/types/medicine-order.interface";
 import { getAdminMedicineOrders } from "@/services/medicine-order/medicine-order.service";
+import {EllipsisVertical } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -72,7 +73,7 @@ export default async function AdminMedicineOrdersPage() {
                     href={`/admin/medicine-orders/${order.id}`}
                     className="font-medium text-primary hover:underline"
                   >
-                    Manage
+                  <EllipsisVertical/>
                   </Link>
                 </td>
               </tr>
