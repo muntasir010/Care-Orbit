@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { MedicineOrder } from "@/types/medicine-order.interface";
 import { getAdminMedicineOrders } from "@/services/medicine-order/medicine-order.service";
-import {EllipsisVertical } from "lucide-react";
+import { BadgeInfo } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -13,9 +13,7 @@ export default async function AdminMedicineOrdersPage() {
   return (
     <main className="space-y-6 p-6">
       <div>
-        <h1 className="text-2xl font-bold">
-          Medicine Orders
-        </h1>
+        <h1 className="text-2xl font-bold">Medicine Orders</h1>
         <p className="mt-1 text-sm text-gray-500">
           Manage patient medicine orders and payments.
         </p>
@@ -38,9 +36,7 @@ export default async function AdminMedicineOrdersPage() {
           <tbody>
             {orders.map((order) => (
               <tr key={order.id} className="border-t">
-                <td className="p-4 font-medium">
-                  {order.orderNumber}
-                </td>
+                <td className="p-4 font-medium">{order.orderNumber}</td>
 
                 <td className="p-4">
                   <p>{order.patient?.name ?? order.shippingName}</p>
@@ -49,9 +45,7 @@ export default async function AdminMedicineOrdersPage() {
                   </p>
                 </td>
 
-                <td className="p-4">
-                  {order.shippingDistrict}
-                </td>
+                <td className="p-4">{order.shippingDistrict}</td>
 
                 <td className="p-4 font-semibold">
                   ৳{Number(order.totalAmount).toFixed(2)}
@@ -59,21 +53,20 @@ export default async function AdminMedicineOrdersPage() {
 
                 <td className="p-4">
                   <p>{order.paymentMethod}</p>
-                  <p className="text-xs text-gray-500">
-                    {order.paymentStatus}
-                  </p>
+                  <p className="text-xs text-gray-500">{order.paymentStatus}</p>
                 </td>
 
-                <td className="p-4">
-                  {order.status}
-                </td>
+                <td className="p-4">{order.status}</td>
 
                 <td className="p-4">
                   <Link
-                    href={`/admin/medicine-orders/${order.id}`}
-                    className="font-medium text-primary hover:underline"
+                    href={`/admin/dashboard/medicine-orders/${order.id}`}
+                    aria-label={`Manage order ${order.orderNumber}`}
+                    title="Manage order"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 transition hover:bg-gray-100 hover:text-primary"
                   >
-                  <EllipsisVertical/>
+                    <BadgeInfo size={20} />
+
                   </Link>
                 </td>
               </tr>
@@ -81,10 +74,7 @@ export default async function AdminMedicineOrdersPage() {
 
             {orders.length === 0 && (
               <tr>
-                <td
-                  colSpan={7}
-                  className="p-10 text-center text-gray-500"
-                >
+                <td colSpan={7} className="p-10 text-center text-gray-500">
                   No medicine orders found.
                 </td>
               </tr>

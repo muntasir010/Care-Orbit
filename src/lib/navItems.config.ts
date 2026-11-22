@@ -99,7 +99,17 @@ export const patientNavItems: NavSection[] = [
             },
         ],
     },
-
+    {
+        title: "Medicine Orders",
+        items: [
+            {
+                title: "My Orders",
+                href: "/dashboard/medicine-orders",
+                icon: "ClipboardList", // ✅ String
+                roles: ["PATIENT"],
+            },
+        ],
+    }
 ]
 
 export const adminNavItems: NavSection[] = [
@@ -145,6 +155,17 @@ export const adminNavItems: NavSection[] = [
                 title: "Specialties",
                 href: "/admin/dashboard/specialties-management",
                 icon: "Hospital", // ✅ String
+                roles: ["ADMIN"],
+            },
+        ],
+    },
+    {
+        title: "Medicine Orders",
+        items: [
+            {
+                title: "All Orders",
+                href: "/admin/dashboard/medicine-orders",
+                icon: "ClipboardList", // ✅ String
                 roles: ["ADMIN"],
             },
         ],
