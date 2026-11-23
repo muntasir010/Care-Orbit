@@ -14,7 +14,10 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-import type { MedicineOrder } from "@/types/medicine-order.interface";
+import type {
+  MedicineOrder,
+  OrderStatus,
+} from "@/types/medicine-order.interface";
 
 import {
   markMedicineOrderCODAsPaid,
@@ -24,13 +27,6 @@ import {
 interface Props {
   order: MedicineOrder;
 }
-
-type OrderStatus =
-  | "PENDING"
-  | "CONFIRMED"
-  | "SHIPPED"
-  | "DELIVERED"
-  | "CANCELLED";
 
 const statusTransitions: Record<OrderStatus, OrderStatus[]> = {
   PENDING: ["CONFIRMED", "CANCELLED"],
@@ -73,10 +69,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
     }
 
     startTransition(async () => {
-      const result = await updateMedicineOrderStatus(
-        order.id,
-        selectedStatus,
-      );
+      const result = await updateMedicineOrderStatus(order.id, selectedStatus);
 
       if (!result.success) {
         toast.error(result.message);
@@ -89,11 +82,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
   };
 
   const handleCODPayment = () => {
-    if (
-      !isCOD ||
-      order.status !== "DELIVERED" ||
-      isPaid
-    ) {
+    if (!isCOD || order.status !== "DELIVERED" || isPaid) {
       return;
     }
 
@@ -116,16 +105,14 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <Link
-            href="/admin/medicine-orders"
+            href="/admin/dashboard/medicine-orders"
             className="mb-3 inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary"
           >
             <ArrowLeft size={16} />
             Back to Medicine Orders
           </Link>
 
-          <h1 className="text-2xl font-bold">
-            Order Details
-          </h1>
+          <h1 className="text-2xl font-bold">Order Details</h1>
 
           <p className="mt-1 text-sm text-gray-500">
             Order #{order.orderNumber}
@@ -148,9 +135,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
           <section className="rounded-xl border bg-white p-5">
             <div className="mb-5 flex items-center gap-2">
               <Package className="text-primary" size={20} />
-              <h2 className="text-lg font-semibold">
-                Ordered Medicines
-              </h2>
+              <h2 className="text-lg font-semibold">Ordered Medicines</h2>
             </div>
 
             <div className="space-y-4">
@@ -200,15 +185,12 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
           <section className="rounded-xl border bg-white p-5">
             <div className="mb-4 flex items-center gap-2">
               <MapPin className="text-primary" size={20} />
-              <h2 className="text-lg font-semibold">
-                Shipping Information
-              </h2>
+              <h2 className="text-lg font-semibold">Shipping Information</h2>
             </div>
 
             <div className="space-y-2 text-sm">
               <p>
-                <span className="font-medium">Name:</span>{" "}
-                {order.shippingName}
+                <span className="font-medium">Name:</span> {order.shippingName}
               </p>
 
               <p>
@@ -228,8 +210,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
 
               {order.note && (
                 <p>
-                  <span className="font-medium">Note:</span>{" "}
-                  {order.note}
+                  <span className="font-medium">Note:</span> {order.note}
                 </p>
               )}
             </div>
@@ -239,9 +220,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
           <section className="rounded-xl border bg-white p-5">
             <div className="mb-4 flex items-center gap-2">
               <UserRound className="text-primary" size={20} />
-              <h2 className="text-lg font-semibold">
-                Patient Information
-              </h2>
+              <h2 className="text-lg font-semibold">Patient Information</h2>
             </div>
 
             <div className="space-y-2 text-sm">
@@ -262,9 +241,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
         <div className="space-y-6">
           {/* Order Summary */}
           <section className="rounded-xl border bg-white p-5">
-            <h2 className="mb-4 text-lg font-semibold">
-              Order Summary
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
 
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
@@ -295,17 +272,13 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
           <section className="rounded-xl border bg-white p-5">
             <div className="mb-4 flex items-center gap-2">
               <CreditCard className="text-primary" size={20} />
-              <h2 className="text-lg font-semibold">
-                Payment Information
-              </h2>
+              <h2 className="text-lg font-semibold">Payment Information</h2>
             </div>
 
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-500">Method</span>
-                <span className="font-medium">
-                  {order.paymentMethod}
-                </span>
+                <span className="font-medium">{order.paymentMethod}</span>
               </div>
 
               <div className="flex justify-between">
@@ -343,9 +316,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
           <section className="rounded-xl border bg-white p-5">
             <div className="mb-4 flex items-center gap-2">
               <Truck className="text-primary" size={20} />
-              <h2 className="text-lg font-semibold">
-                Manage Order
-              </h2>
+              <h2 className="text-lg font-semibold">Manage Order</h2>
             </div>
 
             {availableStatuses.length > 0 ? (
@@ -365,9 +336,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
                   }
                   className="w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:border-primary"
                 >
-                  <option value={order.status}>
-                    Current: {order.status}
-                  </option>
+                  <option value={order.status}>Current: {order.status}</option>
 
                   {availableStatuses.map((status) => (
                     <option key={status} value={status}>
@@ -379,9 +348,7 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
                 <button
                   type="button"
                   onClick={handleStatusUpdate}
-                  disabled={
-                    isPending || selectedStatus === order.status
-                  }
+                  disabled={isPending || selectedStatus === order.status}
                   className="mt-4 w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isPending ? "Updating..." : "Update Status"}
@@ -389,14 +356,14 @@ export default function AdminMedicineOrderDetails({ order }: Props) {
               </>
             ) : (
               <p className="text-sm text-gray-500">
-                This order has reached its final status. No further
-                status changes are available.
+                This order has reached its final status. No further status
+                changes are available.
               </p>
             )}
 
             <p className="mt-4 text-xs text-gray-500">
-              Available status changes follow the backend order
-              transition rules.
+              Available status changes follow the backend order transition
+              rules.
             </p>
           </section>
         </div>

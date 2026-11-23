@@ -94,7 +94,7 @@ export interface MedicineOrder {
 
   patientId?: string;
 
-  status: string;
+  status: OrderStatus;
   paymentStatus: string;
   paymentMethod: MedicinePaymentMethod;
 
@@ -123,20 +123,9 @@ export interface MedicineOrder {
   };
 }
 
-// export interface MedicineOrder {
-//   id: string;
-//   orderNumber?: string;
-//   status: string;
-//   paymentStatus: string;
-//   paymentMethod: MedicinePaymentMethod;
-//   subtotal: number;
-//   discount?: number;
-//   deliveryFee?: number;
-//   totalAmount: number;
-//   shippingName: string;
-//   shippingPhone: string;
-//   shippingDistrict: string;
-//   shippingAddress: string;
-//   items: MedicineOrderItem[];
-//   createdAt: string;
-// }
+export type OrderStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "SHIPPED"
+  | "DELIVERED"
+  | "CANCELLED";

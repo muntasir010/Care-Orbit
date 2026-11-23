@@ -266,3 +266,56 @@ export const markMedicineOrderCODAsPaid = async (orderId: string) => {
     };
   }
 };
+
+interface UpdateMedicineOrderShippingPayload {
+  shippingName: string;
+  shippingPhone: string;
+  shippingDistrict: string;
+  shippingAddress: string;
+}
+
+export const updateMedicineOrderShipping = async (
+  orderId: string,
+  payload: UpdateMedicineOrderShippingPayload,
+) => {
+  try {
+    const response = await serverFetch.patch(
+      `/medicine-order/my-orders/${orderId}/shipping`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Unable to update shipping information",
+      };
+    }
+
+    revalidatePath("/dashboard/medicine-orders");
+    revalidatePath(`/dashboard/medicine-orders/${orderId}`);
+    revalidatePath("/admin/medicine-orders");
+    revalidatePath(`/admin/medicine-orders/${orderId}`);
+
+    return {
+      success: true,
+      message: result.message || "Shipping information updated successfully",
+      data: result.data,
+    };
+  } catch (error) {
+    console.error("updateMedicineOrderShipping error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong while updating shipping information",
+    };
+  }
+};
