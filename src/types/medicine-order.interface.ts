@@ -129,3 +129,11 @@ export type OrderStatus =
   | "SHIPPED"
   | "DELIVERED"
   | "CANCELLED";
+
+  export interface UpdateMedicineOrderShippingPayload {
+    shippingName: string;
+    shippingPhone: string;
+    shippingDistrict: string;
+    shippingAddress: string;
+  }
+  

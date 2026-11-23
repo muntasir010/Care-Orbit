@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { serverFetch } from "@/lib/server-fetch";
-import { CreateMedicineOrderPayload } from "@/types/medicine-order.interface";
+import {
+  CreateMedicineOrderPayload,
+  UpdateMedicineOrderShippingPayload,
+} from "@/types/medicine-order.interface";
 
 const CART_PATH = "/medicines/cart";
 
@@ -30,6 +33,7 @@ export const createMedicineOrder = async (
   payload: CreateMedicineOrderPayload,
 ) => {
   try {
+    // Step 1: Create the order
     const response = await serverFetch.post("/medicine-order", {
       headers: {
         "Content-Type": "application/json",
@@ -44,13 +48,36 @@ export const createMedicineOrder = async (
         success: false,
         message: result.message || "Order creation failed",
         data: null,
+        cartCleared: false,
       };
     }
 
+    // Step 2: Clear cart only after successful order creation
+    let cartCleared = false;
+
+    try {
+      const cartResponse = await serverFetch.delete("/cart");
+
+      if (cartResponse.ok) {
+        const cartResult = await cartResponse.json();
+        cartCleared = Boolean(cartResult.success);
+      }
+    } catch (cartError) {
+      console.error("Order created but cart clearing failed:", cartError);
+    }
+
+    // Step 3: Revalidate relevant pages
+    revalidatePath("/medicines/cart");
+    revalidatePath("/medicines/checkout");
+    revalidatePath("/dashboard/medicine-orders");
+
     return {
       success: true,
-      message: result.message,
+      message: cartCleared
+        ? result.message || "Order placed successfully"
+        : "Order placed successfully, but your cart could not be cleared. Please refresh your cart.",
       data: result.data,
+      cartCleared,
     };
   } catch (error) {
     console.error("Create medicine order error:", error);
@@ -59,11 +86,11 @@ export const createMedicineOrder = async (
       success: false,
       message: "Something went wrong while creating your order",
       data: null,
+      cartCleared: false,
     };
   }
 };
 
-// Keep your existing initiateMedicineOrderPayment function below.
 export const initiateMedicineOrderPayment = async (orderId: string) => {
   try {
     const response = await serverFetch.post(
@@ -266,13 +293,6 @@ export const markMedicineOrderCODAsPaid = async (orderId: string) => {
     };
   }
 };
-
-interface UpdateMedicineOrderShippingPayload {
-  shippingName: string;
-  shippingPhone: string;
-  shippingDistrict: string;
-  shippingAddress: string;
-}
 
 export const updateMedicineOrderShipping = async (
   orderId: string,
