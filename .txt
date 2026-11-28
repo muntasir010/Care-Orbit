@@ -1,24 +1,42 @@
-
 src/
 ├── app/
-│   ├── (dashboardLayout)/
+│   ├── admin/
+│   │   └── riders/
+│   │       ├── page.tsx
+│   │       └── loading.tsx
+│   │
+│   ├── rider/
 │   │   └── dashboard/
-│   │       └── medicine-orders/
-│   │           ├── page.tsx
-│   │           └── [id]/page.tsx
-│   └── (dashboardLayout)/
-│       └── admin/
-│           └── medicine-orders/
-│               ├── page.tsx
-│               └── [id]/page.tsx
+│   │       ├── page.tsx
+│   │       └── loading.tsx
+│   │
+│   └── dashboard/
+│       └── medicine-orders/
+│           └── [id]/
+│               └── tracking/
+│                   └── page.tsx
+│
 ├── components/
 │   └── modules/
-│       └── medicine-order/
-│           ├── MyMedicineOrders.tsx
-│           ├── MedicineOrderDetails.tsx
-│           ├── AdminMedicineOrders.tsx
-│           └── AdminMedicineOrderDetails.tsx
-└── services/
-    └── medicine-order/
-        ├── medicine-order.service.ts
-        └── medicine-order.action.ts
+│       └── Rider/
+│           ├── Admin/
+│           │   ├── RiderTable.tsx
+│           │   ├── CreateRiderForm.tsx
+│           │   └── AssignRider.tsx
+│           ├── Dashboard/
+│           │   ├── RiderDashboard.tsx
+│           │   ├── DeliveryCard.tsx
+│           │   ├── DeliveryStatusUpdate.tsx
+│           │   └── RiderLocationTracker.tsx
+│           └── Tracking/
+│               ├── PatientTracking.tsx
+│               ├── DeliveryMap.tsx
+│               └── RiderReviewForm.tsx
+│
+├── services/
+│   └── rider/
+│       ├── rider.service.ts
+│       └── rider.action.ts
+│
+└── types/
+    └── rider.interface.ts

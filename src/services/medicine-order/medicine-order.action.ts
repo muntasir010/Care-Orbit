@@ -9,7 +9,9 @@ import {
 
 const CART_PATH = "/medicines/cart";
 
-const handleResponse = async (response: Response) => {
+const handleResponse = async (
+  response: Response,
+): Promise<{ success: boolean; message: string; data: unknown }> => {
   const result = await response.json();
 
   if (!response.ok || !result.success) {
